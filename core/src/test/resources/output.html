@@ -1,0 +1,989 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="uk" lang="uk">
+<head>
+    <title>Єдиний державний реєстр судових рішень</title>
+    <meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+    <meta HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+    <link rel="shortcut icon" href="/Content/Images/favicon.ico" type="image/x-icon" />
+    <link href="/Content/Site.css" rel="stylesheet" type="text/css" />
+    <script src="/Scripts/all.min.js" type="text/javascript"></script>
+    <script src="/Scripts/Common.js?1" type="text/javascript"></script>
+    <script src="/Scripts/jquery.blockUI.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery.multiSelect.js" type="text/javascript"></script>
+</head>
+<body style="visibility: hidden">
+    <div class="page">
+        <div id="content">
+        <div id="header">
+            <h1>Єдиний державний реєстр судових рішень</h1>
+
+			<div id="logon" class="notVisible">
+                Ласкаво просимо, !
+            </div>
+            <div id="menucontainer">
+                <table id="menu" cellpadding="0" cellspacing="0" align="center">
+                    <tr>
+                        <td style="width: 69px; text-align: left; vertical-align: middle;" class="staticTD">
+                            <img src="/Content/Images/trident2.PNG" title="Державний герб України" alt="Державний герб України" style="display: block" />
+                        </td>
+                        <td style="width: 89px"><a href="/" id="aSearch" name="aSearch">Головна</a>
+                        </td>
+                        <td style="width: 137px"><a href="/Law" id="aLaw" name="aLaw">Законодавство</a>
+                        </td>
+                        <td style="width: 96px"><a href="/Contacts" id="aContacts" name="aContacts">Контакти</a>
+                        </td>
+                        <td style="width: 91px"><a href="/Rules" id="aRules" name="aRules">Правила</a>
+                        </td>
+                        <td style="width: 100px"><a href="/Help" id="aHelp" name="aHelp">Допомога</a>
+                        </td>
+                        <td style="width: 150px" class="staticTD">
+                        </td>
+                        <td style="width: 136px"><a id="fullAccess">
+Повний доступ
+</a>
+
+
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="login">
+            
+<link href="/Content/multiselect/jquery.multiSelect.css" rel="stylesheet" type="text/css" />
+<link href="/Content/datepicker/jquery.datepick.css" rel="stylesheet" type="text/css" />
+
+
+<form action="/" method="post">    <div style="display: none;">
+        <img id="calImg" src="/Content/Images/calendar.png" alt="Calendar" />
+    </div>
+    <div id="divsearch">
+        <table id="tablesearch">
+            <tr>
+                <td id="tdHeaderSearch" class="tdHeaderSearch">
+                    <b>Пошук за контекстом</b>
+                    <br />
+                    <input class="searchtxt" id="SearchExpression" name="SearchExpression" type="text" value="Вітал плюс" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <div class="divLeftSearch">
+                <div class="intoLeftSearch">
+                <!--td id="tdLeftSearch" class="tdLeftSearch"-->
+                    <div id="myFieldSet_1" class="myFieldSet">
+                        <div class="myLegend">
+                            <a>Суд та судді</a></div>
+                        <table class="tableCourt_1">
+                            <tr>
+                                <td class="tdLeft">
+                                    Регіон&nbsp;суду
+                                </td>
+                                <td id="tdForWidth_1">
+                                    <select id="CourtRegion" multiple="multiple" name="CourtRegion"><option value="2">Автономна Республіка Крим</option>
+<option value="3">Вінницька область</option>
+<option value="4">Волинська область</option>
+<option value="5">Дніпропетровська область</option>
+<option value="6">Донецька область</option>
+<option value="7">Житомирська область</option>
+<option value="8">Закарпатська область</option>
+<option value="9">Запорізька область</option>
+<option value="10">Івано-Франківська область</option>
+<option value="11">Київська область</option>
+<option value="12">Кіровоградська область</option>
+<option value="13">Луганська область</option>
+<option value="14">Львівська область</option>
+<option value="15">Миколаївська область</option>
+<option value="16">Одеська область</option>
+<option value="17">Полтавська область</option>
+<option value="18">Рівненська область</option>
+<option value="19">Сумська область</option>
+<option value="20">Тернопільська область</option>
+<option value="21">Харківська область</option>
+<option value="22">Херсонська область</option>
+<option value="23">Хмельницька область</option>
+<option value="24">Черкаська область</option>
+<option value="25">Чернівецька область</option>
+<option value="26">Чернігівська область</option>
+<option value="27">м. Київ</option>
+<option value="28">м. Севастополь</option>
+<option value="29">ВС Центральний регіон</option>
+<option value="30">ВС Західний регіон</option>
+<option value="31">ВС Південний регіон</option>
+<option value="32">ВС ВМС України</option>
+</select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    Найменування<br />
+                                    суду
+                                </td>
+                                <td>
+                                    <div class="divBefore"><div></div></div>
+                                    <select id="CourtName" multiple="multiple" name="CourtName"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    Код&nbsp;суду
+                                </td>
+                                <td>
+                                    <input id="UserCourtCode" name="UserCourtCode" type="text" value="" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    Інстанція
+                                </td>
+                                <td>
+                                    <select id="INSType" multiple="multiple" name="INSType"><option value="1">Перша</option>
+<option value="2">Апеляційна</option>
+<option value="3">Касаційна</option>
+</select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    ПІБ&nbsp;судді
+                                </td>
+                                <td>
+                                    <input id="ChairmenName" name="ChairmenName" type="text" value="" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="myFieldSet_0" style="display: block; height: 20px;">
+                    </div>
+                    <div id="myFieldSet_2" class="myFieldSet">
+                        <div class="myLegend">
+                            <a>Судове рішення</a></div>
+                        <table class="tableCourt_2">
+                            <tr>
+                                <td class="tdLeft">
+                                    Реєстраційний<br />
+                                    №&nbsp;рішення
+                                </td>
+                                <td id="tdForWidth_2">
+                                    <input id="RegNumber" name="RegNumber" type="text" value="" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    Період&nbsp;ухвалення<br />
+                                    (постановлення)
+                                </td>
+                                <td>
+                                    <div class="divLeftSearch">
+                                        з <input class="tbdates" id="RegDateBegin" name="RegDateBegin" type="text" value="" />
+                                    </div>
+                                    <div class="divRightSearch" style="text-align: right">
+                                        по <input class="tbdates" id="RegDateEnd" name="RegDateEnd" type="text" value="" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    Період<br />
+                                    надходження
+                                </td>
+                                <td>
+                                    <div class="divLeftSearch">
+                                        з <input class="tbdates" id="ImportDateBegin" name="ImportDateBegin" type="text" value="29.07.2018" />
+                                    </div>
+                                    <div class="divRightSearch" style="text-align: right">
+                                        по <input class="tbdates" id="ImportDateEnd" name="ImportDateEnd" type="text" value="29.08.2018" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    Форма&nbsp;судового<br />
+                                    рішення
+                                </td>
+                                <td>
+                                    <select id="VRType" multiple="multiple" name="VRType"><option value="1">Вирок</option>
+<option value="2">Постанова</option>
+<option value="3">Рішення</option>
+<option value="4">Судовий наказ</option>
+<option value="5">Ухвала</option>
+<option value="6">Окрема ухвала</option>
+<option value="10">Окрема думка</option>
+</select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                <!--/td-->
+                </div>
+                </div>
+                <div class="divRightSearch">
+                <div class="intoRightSearch">
+                <!--td id="tdRightSearch" class="tdRightSearch"-->
+                    <div id="myFieldSet_3" class="myFieldSet">
+                        <div class="myLegend">
+                            <a>Судова справа</a></div>
+                        <table class="tableCourt_3">
+                            <tr>
+                                <td class="tdLeft">
+                                    Форма<br />
+                                    судочинства
+                                </td>
+                                <td>
+                                    <select id="CSType" multiple="multiple" name="CSType"><option value="4">Адміністративне</option>
+<option value="3">Господарське</option>
+<option value="2">Кримінальне</option>
+<option value="1">Цивільне</option>
+<option value="5">Справи про адміністративні правопорушення</option>
+</select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    Категорія&nbsp;справи
+                                </td>
+                                <td>
+                                    <select id="CaseCat1" multiple="multiple" name="CaseCat1"><option value="3000">Адміністративні справи</option>
+<option value="4000">Господарські справи</option>
+<option value="2000">Кримінальні справи</option>
+<option value="5139">Справи про адмінправопорушення</option>
+<option value="6258">У порядку процесуального законодавства</option>
+<option value="1000">Цивільні справи</option>
+</select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    &nbsp;
+                                </td>
+                                <td id="tdForWidth_3">
+                                    <div class="divBefore"><div></div></div>
+                                    <select id="CaseCat2" multiple="multiple" name="CaseCat2"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    &nbsp;
+                                </td>
+                                <td>
+                                    <div class="divBefore"><div></div></div>
+                                    <select id="CaseCat3" multiple="multiple" name="CaseCat3"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    &nbsp;
+                                </td>
+                                <td>
+                                    <div class="divBefore"><div></div></div>
+                                    <select id="CaseCat4" multiple="multiple" name="CaseCat4"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    &nbsp;
+                                </td>
+                                <td>
+                                    <div class="divBefore"><div></div></div>
+                                    <select id="CaseCat5" multiple="multiple" name="CaseCat5"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    &nbsp;
+                                </td>
+                                <td>
+                                    <div class="divBefore"><div></div></div>
+                                    <select id="CaseCat6" multiple="multiple" name="CaseCat6"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    Справа&nbsp;№
+                                </td>
+                                <td>
+                                    <input id="CaseNumber" name="CaseNumber" type="text" value="" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdLeft">
+                                    Статуси&nbsp;сторін<br />
+                                    судового&nbsp;процесу
+                                </td>
+                                <td>
+                                    <select id="SideStatus" multiple="multiple" name="SideStatus"><option value="1">Фізична особа</option>
+<option value="2">Державний орган, підприємство, установа, організація</option>
+<option value="3">Юридична особа</option>
+</select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                <!--/td-->
+                </div>
+                </div>
+                </td>
+            </tr>
+        </table>
+        <div id="divFooterSearch">
+            <table>
+                <tr>
+                    <td class="td1">
+                            <span>За заданими параметрами пошуку знайдено документів: 2</span>
+                    </td>
+                    <td class="td2">
+                        <input type="submit" value="Пошук" id="btn" class="btn" />
+                        <input type="button" value="Очистити" id="btnclear" class="btnclear" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="divRecordsOnPage">
+    <table id="tableRecordsOnPage">
+        <tr>
+        <td id="tdBetaVersion">
+            <!--Після реконструкції працює бета-версія оновленого сайту. Зауваження просимо надсилати за <a id="aRemarks">адресою</a>-->
+    <table id="tableSortBy">
+    <tr>
+    <!--td id="tdFirstSortBy">&nbsp;</td-->
+    <td id="tdSecondSortBy">Сортування:</td>
+    <td id="tdThirdSortBy">
+    <select id="Sort" name="Sort"><option selected="selected" value="0">за релевантністю</option>
+<option value="1">за датою ухвалення рішення | за спаданням</option>
+<option value="2">за датою ухвалення рішення | за зростанням</option>
+</select>
+    </td>
+    </tr>
+    </table>
+        </td>
+        <td id="tdEmptyRecordsOnPage">&nbsp;</td>
+        <td id="tdTextRecordsOnPage">
+            Кількість записів на сторінці:
+        </td>
+        <td id="tdRecordsOnPage">
+        <select data-val="true" data-val-number="The field ItemsPerPage must be a number." data-val-required="Требуется поле ItemsPerPage." id="PagingInfo_ItemsPerPage" name="PagingInfo.ItemsPerPage"><option value="10">10</option>
+<option value="25">25</option>
+<option value="50">50</option>
+<option selected="selected" value="100">100</option>
+</select>
+        </td>
+        </tr>
+    </table>
+    </div>
+    <div id="divLiga">
+        <table id="tabledivLiga">
+            <tr>
+            <td id="tdRemarks1">
+        <table id="tableLiga">
+            <tr>
+            <td id="tdSecondLiga"><a id="aLiga" href="/Help#liga">Використовувати&nbsp;інформаційно&minus;правову&nbsp;електронну&nbsp;базу</a>:</td>
+            <td id="tdThirdLiga">
+                <select data-val="true" data-val-required="Требуется поле Liga." id="Liga" name="Liga"><option selected="selected" value="true">так</option>
+<option value="false">ні</option>
+</select>
+            </td>
+            </tr>
+        </table>
+            </td>
+            <td id="tdRemarks2">&nbsp;</td>
+            <td id="tdRemarks3"><a id="aRemarks">Відгуки про роботу сайту</a></td>
+            </tr>
+        </table>
+    </div>
+<!--div id="divSortBy">
+    <table cellspacing="0" id="tableSortBy">
+    <tr>
+    <td id="tdFirstSortBy">&nbsp;</td>
+    <td id="tdSecondSortBy">Сортування:</td>
+    <td id="tdThirdSortBy">
+    <select id="Sort" name="Sort"><option selected="selected" value="0">за релевантністю</option>
+<option value="1">за датою ухвалення рішення | зростання</option>
+<option value="2">за датою ухвалення рішення | спадання</option>
+</select>
+    </td>
+    </tr>
+    </table>
+</div-->
+    <!--<input id="Sort" name="Sort" type="hidden" value="0" />;-->
+</form>
+<a id="aInfo" style="display: none">Id = 636711146386911983, MaxWorkingQueries = 16, TotalNumber = 52685, TimeForGetNumber = 0, QuequeLength = 3, TimeForGetLength = 0, TimeInQueque = 0, QuequeLength = 2, TimeForGetLength = 0, TimeInProcess = 47</a>
+<!--div id="divSortBy">
+    <table cellspacing="0" id="tableSortBy">
+    <tr>
+    <td id="tdFirstSortBy">&nbsp;</td>
+    <td id="tdSecondSortBy">Сортування:</td>
+    <td id="tdThirdSortBy">
+    <select id="SortByDateRel" name="SortBydateRel">
+        <option value="true" >за датою ухвалення рішення</option>
+        <option value="false" selected>за релевантністю</option>
+    </select>
+    </td>
+    </tr>
+    </table>
+</div-->
+<div id="divTopNavigate">
+</div>
+<div id="divresult">
+    <table cellspacing="0" id="tableresult">
+        <tr>
+            <th class="thRegNumber">
+                №&nbsp;рішення
+            </th>
+            <th class="thVRType">
+                Форма<br/>судового<br/>рішення
+            </th>
+            <th class="thRegDate">
+                Дата<br/>ухвалення<br/>рішення
+            </th>
+            <th class="thLawDate">
+                Дата<br/>набрання<br/>законної<br/>сили
+            </th>
+            <th class="thCSType">
+                Форма<br/>судочинства
+            </th>
+            <th class="thCaseNumber">
+                №&nbsp;судової&nbsp;справи
+            </th>
+            <th class="thCourtName">
+                Назва&nbsp;суду
+            </th>
+            <!--th class="thCourtCode">
+                Код<br/>суду
+            </th-->
+            <th class="thChairmenName">
+                Суддя
+            </th>
+        </tr>
+            <tr>
+                <td class="tr1">
+                    <a class="doc_text2" href="/Review/75822855" target="_blank">75822855</a>
+                </td>
+                <td class="VRType tr1">Постанова
+                </td>
+                <td class="RegDate tr1">21.02.2018
+                </td>
+                <td class="LawDate tr1"> 
+                </td>
+                <td class="CSType tr1">Справи про адміністративні правопорушення
+                </td>
+                <td class="CaseNumber tr1">761/46776/17
+                </td>
+                <td class="CourtName tr1">Шевченківський районний суд міста Києва
+                </td>
+                <!--td class="CourtCode tr1">2610
+                </td-->
+                <td class="ChairmenName tr1">Циктіч В. М.
+                </td>
+            </tr>
+            <tr>
+                <td class="tr2 tdLeftBottomBorder">
+                    <a class="doc_text2" href="/Review/75596580" target="_blank">75596580</a>
+                </td>
+                <td class="VRType tr2">Ухвала
+                </td>
+                <td class="RegDate tr2">08.06.2018
+                </td>
+                <td class="LawDate tr2">12.06.2018 
+                </td>
+                <td class="CSType tr2">Кримінальне
+                </td>
+                <td class="CaseNumber tr2">405/3472/18
+                </td>
+                <td class="CourtName tr2">Ленінський районний суд м. Кіровограда
+                </td>
+                <!--td class="CourtCode tr2">1111
+                </td-->
+                <td class="ChairmenName tr2 tdRightBottomBorder">Загреба А. В.
+                </td>
+            </tr>
+    </table>
+</div>
+<div id="divBottomNavigate">
+</div>
+<!--div id="divSortBy">
+    Сортування
+    <a id="SortByDate" class="aSortBy1">за датою ухвалення рішення</a>
+    <a id="SortByRel" class="aSortBy2 aSortByRight">за релевантністю</a>
+</div-->
+
+<div id="divAllDocuments">
+    Документів у системі: <a>0</a><a>7</a><a>4</a><a>1</a><a>3</a><a>6</a><a>2</a><a>1</a><a>5</a>
+</div>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $(document).ready(function () {
+            var ti = 2;
+            var pp = 100;
+            var tp = Math.ceil(((ti > 100000)?100000:ti)/pp);
+            var cp = 1;
+            var bp = 3 + 7 + 3;
+            function htmlButton(href, bClass, text) { return '<a ' + href + ' class="' + bClass + '">' + text + '</a>'; }
+            var html = '';
+            html += htmlButton((cp != 1)?'href="/Page/1"':'',              (cp != 1)?'enButton':'disButton', '«');
+            html += htmlButton((cp != 1)?'href="/Page/' + (cp-1) + '"':'', (cp != 1)?'enButton':'disButton', '<' );
+            if (tp <= bp) {
+                for (var i = 1; i <= tp; i++) html += htmlButton((i != cp)?'href="/Page/' + i + '"':'', (i != cp)?'enButton':'disButton', i);
+            } else
+            if (cp <= Math.ceil(bp/2)) {
+                for (var i = 1; i <= bp-3; i++) html += htmlButton((i != cp)?'href="/Page/' + i + '"':'', (i != cp)?'enButton':'disButton', i);
+                html += htmlButton('', 'dotButton', '...');
+                for (var i = tp-1; i <= tp; i++) html += htmlButton('href="/Page/' + i + '"', 'enButton', i);
+            } else
+            if (cp > tp - Math.ceil(bp/2)) {
+                for (var i = 1; i <= 2; i++) html += htmlButton('href="/Page/' + i + '"', 'enButton', i);
+                html += htmlButton('', 'dotButton', '...');
+                for (var i = tp - (bp-3) + 1; i <= tp; i++) html += htmlButton((i != cp)?'href="/Page/' + i + '"':'', (i != cp)?'enButton':'disButton', i);
+            } else {
+                for (var i = 1; i <= 2; i++) html += htmlButton('href="/Page/' + i + '"', 'enButton', i);
+                html += htmlButton('', 'dotButton', '...');
+                for (var i = cp - Math.round((bp-7)/2); i <= cp + Math.round((bp-7)/2); i++) html += htmlButton((i != cp)?'href="/Page/' + i + '"':'', (i != cp)?'enButton':'disButton', i);
+                html += htmlButton('', 'dotButton', '...');
+                for (var i = tp-1; i <= tp; i++) html += htmlButton('href="/Page/' + i + '"', 'enButton', i);
+            }
+            html += htmlButton((cp != tp)?'href="/Page/' + (cp+1) + '"':'', (cp != tp)?'enButton':'disButton', '>' );
+            html += htmlButton((cp != tp)?'href="/Page/' + tp + '"':'',     (cp != tp)?'enButton':'disButton', '»');
+            $('#divTopNavigate').html(html);
+            $('#divTopNavigate').find('a.enButton').live('click', function () {blockPage();});
+            $('#divBottomNavigate').html(html);
+            $('#divBottomNavigate').find('a.enButton').live('click', function () {blockPage();});
+        });
+    });        
+</script>
+
+        </div>
+        <div id="init">
+            <!--div class="init-caption">
+                Введіть, будь ласка, логін та пароль
+            </div-->
+            <div class="init-log">
+                <a>Логін:</a><br />
+                <a>Для помилки:</a><br />
+                <input id="initLog" type="text" />
+            </div>
+            <div class="init-pass">
+                <a>Пароль:</a><br />
+                <a>Для помилки:</a><br />
+                <input id="initPass" type="password" />
+            </div>
+            <div class="init-submit">
+                <input id="initOk" type="button" value="Вхід" />
+                <input id="initCancel" type="button" value="Відмова" />
+            </div>
+        </div>
+		<style type="text/css">
+			#modalcaptcha {
+				background-color: #F5F5F5;
+				border: 2px solid buttonshadow;
+				border-radius: 15px 15px 15px 15px;
+				font-family: "Times New Roman";
+				font-size: 15px;
+				margin: 0;
+				padding: 20px;
+				position: absolute;
+				z-index: 1;    
+				display: inline;
+				left: 461.5px; top: 192px;
+			}
+
+			#modalcaptcha button {
+				background-color: #F0F0F0;
+				border: 1px solid #AAAAAA;
+				border-radius: 12px 12px 12px 12px;
+				color: #393939;
+				font-size: 100%;
+				font-weight: bold;
+				height: 30px;
+				margin: 0 0 0 10px;
+				width: 150px;
+			}
+			
+			#modalcaptcha .disabled {
+				color: #ddd;
+			}
+		</style>
+
+		<script type="text/javascript">
+
+		   
+		    function Btn_search_click() {
+		        if ((!$('#logon').hasClass('notVisible')) || ('' == '1')) 
+                {
+		            $('#login > form').submit();
+		            blockPage();
+		        }
+                else
+                {
+		            $('#backImage2').attr('src', '/Image?id=' + (new Date()).getTime().toString());
+		            $('#modalcaptcha').show();
+		        }
+
+		        var fNumber = Math.floor(Math.random() * 11);
+
+		        if (fNumber == 0) {
+		            fNumber = 1;
+		        }
+
+		        var sNumber = Math.floor(Math.random() * 11);
+		        var captcha = "Вкажіть правильний результат " + fNumber + "+" + sNumber + " ";
+
+		        var summ = fNumber + sNumber;
+
+
+		        var width = parseInt($(document).width() / 2);
+		        var height = parseInt($(document).height() / 2);
+
+		        $('#modalcaptcha').css({
+		            top: 300,
+		            left: width - parseInt($('#modalcaptcha').width() / 2)
+		        });
+
+		        return false;
+		    }
+
+		    $(document).ready(function () {
+
+		       // $('#btn').click(Btn_search_click);
+
+
+
+		        $('#modalcaptcha .searchcapchaclose').click(function () {
+		            $('#modalcaptcha').hide();
+		        });
+		        
+		    });
+
+		</script>
+
+		<div id="modalcaptcha" style="display: none;">
+			<p style="width: 355px; text-align: justify;">З метою упередження перешкоджанню стабільній роботі Реєстру шляхом здійснення автоматичних або автоматизованих запитів на пошук та копіювання ("викачування") бази даних, запроваджено інтерактивний елемент захисту системи</p>
+			
+            <div id="captchablock">
+                <a id="captchaQuery">Введіть cуму цифр, зображених на малюнку:</a><br />
+                
+                <input id="backWord2" type="text"  /><br />
+                <img id="backImage2" />
+            </div>
+			<div>
+				<button type="button" class="searchbtn">Перевірити</button>
+				<button type="button" class="searchcapchaclose">Закрити</button>
+			</div>
+		</div>
+        <div id="back">
+            <div class="back-name">
+                <a>Ваше ім'я:</a><br />
+                <a>Для помилки:</a><br />
+                <input id="backName" type="text" class="backName" />
+            </div>
+            <div class="back-mail">
+                <a>Ваш e-mail:</a><br />
+                <a>Для помилки:</a><br />
+                <input id="backMail" type="text" class="backMail" />
+            </div>
+            <div class="back-message">
+                <a>Повідомлення:</a><br />
+                <a>Для помилки:</a><br />
+                <textarea id="backMessage" class="backMessage"></textarea>
+            </div>
+            <div class="back-word">
+                <a>Введіть в поле результат арифметичного виразу:</a><br />
+                <a>Для помилки:</a><br />
+                <input id="backWord" type="text" class="backWord" /><br />
+                <img id="backImage" class="backImage" />
+            </div>
+            <div class="back-submit">
+                <input id="backOk" type="button" class="backOk" value="Відправити" />
+                <input id="backCancel" type="button" class="backCancel" value="Скасувати" />
+            </div>
+        </div>
+        <div id="block">
+            Зачекайте, будь ласка...
+        </div>
+        <div id="footer">
+        </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    jQuery(function ($) {
+        startURL = function () {
+            var url = document.URL;
+            var url_1 = url.substr(0, url.indexOf('//') + 2);
+            var url_2 = url.substr(url.indexOf('//') + 2);
+            url = url_1 + url_2.substr(0, url_2.indexOf('/') + 1);
+            return url;
+        }
+
+        $(document).ready(function () {
+            $('#fullAccess').click(function () {
+                if ($(this).find('label').length > 0) {
+                    $.ajax({
+                        url: startURL() + "Account/LogOff",
+                        cache: false,
+                        data: {
+                        },
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (data, statusLine) {
+                            $.each(data, function (i, rec) {
+                                if (rec.key == 'success') {
+                                    $('#logon').addClass('notVisible');
+                                    $('#fullAccess').html('Повний доступ');
+                                }
+                                if (rec.key == 'error') {
+                                    alert(rec.mes);
+                                }
+                            });
+                        },
+                        error: function (e) {
+                            alert('Виникла непередбачувана та неконтрольована помилка [' + e.Message + ']!');
+                        }
+                    });
+                    return;
+                }
+                var fr = $('#init');
+                fr.find('input:text, input:password').val('').prev().addClass('notVisible').prev().addClass('notVisible').addClass('redColor').prev().removeClass('notVisible').prev().removeClass('notVisible');
+                fr.css('display', 'inline');
+                fr.css('left', ($(window).width() - fr.outerWidth()) / 2);
+                fr.css('top', $(window).scrollTop() + ($(window).height() - fr.outerHeight()) / 2);
+                fr.find('input:first').focus();
+            });
+
+            $('#init').find('input:password').keydown(function (e) {
+                if (e.keyCode == 13) {
+                    $('#initOk').click();
+                }
+            });
+
+            $('#initOk').click(function () {
+                var fr = $('#init');
+                fr.find('input:text, input:password').prev().addClass('notVisible').prev().addClass('notVisible').addClass('redColor').prev().removeClass('notVisible').prev().removeClass('notVisible');
+                var _initLog = $('#initLog').val();
+                var _initPass = Sha256.hash($('#initPass').val());
+                $.ajax({
+                    url: startURL() + "Account/Login",
+                    cache: false,
+                    data: {
+                        username: _initLog,
+                        password: _initPass
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data, statusLine) {
+                        $.each(data, function (i, rec) {
+                            if (rec.key == 'success') {
+                                if (rec.mes == '') rec.mes = _initLog;
+                                $('#logon').removeClass('notVisible').text('Ласкаво просимо, ' + rec.mes + '!');
+                                $('#fullAccess').html('<label>Вихід</label>');
+
+                                fr.css('display', 'none');
+                            }
+                            if (rec.key == 'error' && rec.mes == 'log/pass') {
+                                $('#initLog').prev().removeClass('notVisible').prev().removeClass('notVisible').text('Перевірте логін:').prev().addClass('notVisible').prev().addClass('notVisible');
+                                $('#initPass').prev().removeClass('notVisible').prev().removeClass('notVisible').text('Перевірте пароль:').prev().addClass('notVisible').prev().addClass('notVisible');
+                                $('#initLog').focus();
+                            }
+                            if (rec.key == 'error' && rec.mes != 'log/pass') {
+                                alert(key.mes);
+                            }
+                        });
+                    },
+                    error: function (e) {
+                        alert('Виникла непередбачувана та неконтрольована помилка [' + e.Message + ']!');
+                    }
+                });
+                //fr.css('display', 'none');
+            });
+
+            $('#initCancel').click(function () {
+                var fr = $('#init');
+                fr.css('display', 'none');
+            });
+
+            $('#aRemarks').click(function () {
+                backClick();
+            });
+
+            $('#backConnection').click(function () {
+                backClick();
+            });
+
+            function backClick() {
+                var fr = $('#back');
+                $('#backImage').attr('src', '/Image?id=' + (new Date()).getTime().toString());
+                fr.find('input:text').val('').prev().addClass('notVisible').prev().addClass('notVisible').addClass('redColor').prev().removeClass('notVisible').prev().removeClass('notVisible');
+                fr.find('textarea').val('').prev().addClass('notVisible').prev().addClass('notVisible').addClass('redColor').prev().removeClass('notVisible').prev().removeClass('notVisible');
+                fr.css('display', 'inline');
+                fr.css('left', ($(window).width() - fr.outerWidth()) / 2);
+                fr.css('top', $(window).scrollTop() + ($(window).height() - fr.outerHeight()) / 2);
+                fr.find('input:first').focus();
+            }
+            function CaptchaTestClick() 
+            {
+
+                var _backWord = $('#backWord2').val();
+                $.ajax({
+                    url: startURL() + "Contact/Send",
+                    cache: false,
+                    data: {
+                        backWord: _backWord
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data, statusLine) {
+                        var suc = 0;
+                        var err = '';
+                        var inp;
+
+                        $.each(data, function (i, rec) {
+                            if (rec.key == "backWord") {
+                                suc = 1;
+                            }
+
+                        });
+
+                        if (suc == 0) {
+
+                            $('#login > form').submit();
+                            blockPage();
+                        }
+                        else {
+                            $('#backImage2').attr('src', '/Image?id=' + (new Date()).getTime().toString());
+                            $('#backWord2').val('');
+                            $("#captchaQuery").css('color', 'red');
+                        }
+                    },
+                    error: function () {
+                        alert('Виникла непередбачувана та неконтрольована помилка!');
+                    }
+                });
+                //fr.css('display', 'none');
+            }
+
+            $('#backWord2').keypress(function (e) {
+                var k = e.keyCode || e.which;
+                if (k == 13) {
+                    CaptchaTestClick();
+                    return false;
+                }
+            });
+
+            $('#modalcaptcha .searchbtn').click(CaptchaTestClick);
+
+
+            $('#backOk').click(function () {
+                var fr = $('#back');
+                fr.find('input:text').prev().addClass('notVisible').prev().addClass('notVisible').prev().removeClass('notVisible').prev().removeClass('notVisible');
+                fr.find('textarea').prev().addClass('notVisible').prev().addClass('notVisible').prev().removeClass('notVisible').prev().removeClass('notVisible');
+                var _backName = $('#backName').val();
+                var _backMail = $('#backMail').val();
+                var _backMessage = $('#backMessage').val();
+                var _backWord = $('#backWord').val();
+                $.ajax({
+                    url: startURL() + "Contact/Send",
+                    cache: false,
+                    data: {
+                        backName: _backName,
+                        backMail: _backMail,
+                        backMessage: _backMessage,
+                        backWord: _backWord
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data, statusLine) {
+                        var suc = '';
+                        var err = '';
+                        var inp;
+                        $.each(data, function (i, rec) {
+                            if (rec.key == 'success') {
+                                suc = rec.mes;
+                            }
+                            if (rec.key == 'error') {
+                                err = rec.mes;
+                            }
+                            if (rec.key == 'backName') {
+                                inp = $('#' + rec.key).prev().removeClass('notVisible').prev().removeClass('notVisible');
+                                if (rec.mes == 'Empty') {
+                                    inp.text("Поле для імені не може бути порожнім:");
+                                } else if (rec.mes == 'Small') {
+                                    inp.text("Поле для імені має бути змістовним:");
+                                }
+                                inp.prev().addClass('notVisible').prev().addClass('notVisible');
+                            }
+                            if (rec.key == 'backMail') {
+                                inp = $('#' + rec.key).prev().removeClass('notVisible').prev().removeClass('notVisible');
+                                if (rec.mes == 'Empty') {
+                                    inp.text("Поле для e-mail не може бути порожнім:");
+                                } else if (rec.mes == 'Incorrect') {
+                                    inp.text("Поле для e-mail має бути коректним:");
+                                }
+                                inp.prev().addClass('notVisible').prev().addClass('notVisible');
+                            }
+                            if (rec.key == 'backMessage') {
+                                inp = $('#' + rec.key).prev().removeClass('notVisible').prev().removeClass('notVisible');
+                                if (rec.mes == 'Empty') {
+                                    inp.text("Повідомлення не може бути порожнім:");
+                                } else if (rec.mes == 'Small') {
+                                    inp.text("Повідомлення має бути змістовним:");
+                                }
+                                inp.prev().addClass('notVisible').prev().addClass('notVisible');
+                            }
+                            if (rec.key == 'backWord') {
+                                inp = $('#' + rec.key).prev().removeClass('notVisible').prev().removeClass('notVisible');
+                                if (rec.mes == 'Empty') {
+                                    inp.text("Введіть символи, зображені на малюнку:");
+                                } else if (rec.mes == 'Incorrect') {
+                                    inp.text("Невірні символи, спробуйте ще раз:");
+                                }
+                                inp.prev().addClass('notVisible').prev().addClass('notVisible');
+                            }
+                        });
+                        if (suc != '') {
+                            fr.css('display', 'none');
+                            alert(suc);
+                        }
+                        if (err != '') {
+                            alert(err);
+                        }
+                    },
+                    error: function () {
+                        alert('Виникла непередбачувана та неконтрольована помилка!');
+                    }
+                });
+                //fr.css('display', 'none');
+            });
+
+            $('#backCancel').click(function () {
+                var fr = $('#back');
+                fr.css('display', 'none');
+            });
+
+            var bic = 10;
+            var cic = (new Date()).getTime();
+            var nr = String.fromCharCode(13) + String.fromCharCode(10);
+            $('#backImage').attr('title', 'Клікніть, щоб оновити малюнок!' + nr + 'Залишилось 10 спроб!');
+            $('#backImage').click(function () {
+                if (((new Date()).getTime() - cic) < 1000) { return; } else { cic = (new Date()).getTime(); }
+                --bic;
+                if (bic >= 0) $('#backImage').attr('src', '/Image?id=' + (new Date()).getTime().toString()).attr('title', (bic == 0) ? 'Ви використали усі спроби!' : ('Клікніть, щоб оновити малюнок!' + nr + 'Залишил' + ((bic == 1) ? 'а' : 'о') + 'сь ' + bic + ' ' + ((bic > 4) ? 'спроб' : ((bic == 1) ? 'спроба' : 'спроби')) + '!'));
+            });
+
+            $('body').css('visibility', 'visible');
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+    try {
+        var pageTracker = _gat._getTracker("UA-33842633-1");
+        pageTracker._trackPageview();
+    } catch (err) { }
+</script>
+

@@ -1,0 +1,12 @@
+<div *ngIf="keyword">
+
+  <h2>{{keyword.name | uppercase}} Details</h2>
+  <div>
+    <label>keyword:
+      <input [(ngModel)]="keyword.name" placeholder="name">
+    </label>
+  </div>
+  <button (click)="goBack()">go back</button>
+</div>
+
+

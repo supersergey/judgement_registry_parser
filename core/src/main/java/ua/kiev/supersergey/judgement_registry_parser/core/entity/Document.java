@@ -1,0 +1,32 @@
+package ua.kiev.supersergey.judgement_registry_parser.core.entity;
+
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity(name = "document")
+public class Document {
+    @Id
+    private String id;
+    private String decisionType;
+    private LocalDate approvalDate;
+    private LocalDate legalDate;
+    private String judgementForm;
+    private String caseNumber;
+    private String court;
+    private String judge;
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdTs;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "keyword")
+    private Keyword keyword;
+}

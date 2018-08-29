@@ -1,0 +1,8 @@
+<h3>Top Heroes</h3>
+<div class="grid grid-pad">
+  <a *ngFor="let keyword of keywords" class="col-1-4" routerLink="/keyword/{{keyword.name}}">
+    <div class="module keyword">
+      <h4>{{keyword.name}}</h4>
+    </div>
+  </a>
+</div>
