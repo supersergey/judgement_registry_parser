@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Keyword} from "../keyword";
-import {KeywordService} from "../keyword.service";
+import { DashboardService } from "../dashboard.service";
+import { DashboardEntry } from "../dashboard-entry";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-dashboard',
@@ -9,16 +10,25 @@ import {KeywordService} from "../keyword.service";
 })
 export class DashboardComponent implements OnInit {
 
-  keywords: Keyword[] = [];
+  dashboardEntries: DashboardEntry[] = [];
 
-  constructor(private keywordService: KeywordService) { }
+  constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
-    this.getKeywords();
+    this.getDashboardEntries();
   }
 
-  getKeywords(): void {
-    this.keywordService.getKeywords()
-      .subscribe(keywords => this.keywords = keywords.slice(0, 5));
+  getDashboardEntries(): void {
+    this.dashboardService.getDashboardEntries()
+      .subscribe(entries => this.dashboardEntries = DashboardComponent.processEntries(entries));
+  }
+
+  private static processEntries(entries: DashboardEntry[]) : DashboardEntry[] {
+    for (let entry of entries) {
+      for (let doc of entry.documents) {
+        doc.fullUrl = environment.registryUrl + doc.id;
+      }
+    }
+    return entries;
   }
 }

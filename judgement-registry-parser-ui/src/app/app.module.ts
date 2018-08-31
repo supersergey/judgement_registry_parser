@@ -8,7 +8,9 @@ import { KeywordDetailComponent } from './keyword-detail/keyword-detail.componen
 import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { HttpClient } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
+import { HeaderComponent } from './ui/header/header.component';
+import { FooterComponent } from './ui/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -16,13 +18,15 @@ import { HttpClient } from "@angular/common/http";
     KeywordsComponent,
     KeywordDetailComponent,
     MessagesComponent,
-    DashboardComponent
+    DashboardComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    HttpClient
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

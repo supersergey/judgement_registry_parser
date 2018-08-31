@@ -1,3 +1,3 @@
 export class Keyword {
-  name: string;
+  keyword: string;
 }

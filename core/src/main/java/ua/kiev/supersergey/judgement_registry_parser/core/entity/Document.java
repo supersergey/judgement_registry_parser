@@ -26,7 +26,7 @@ public class Document {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdTs;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "keyword")
     private Keyword keyword;
 }

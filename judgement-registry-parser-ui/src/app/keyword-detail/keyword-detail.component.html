@@ -1,9 +1,9 @@
 <div *ngIf="keyword">
 
-  <h2>{{keyword.name | uppercase}} Details</h2>
+  <h2>{{keyword.keyword | uppercase}} Details</h2>
   <div>
     <label>keyword:
-      <input [(ngModel)]="keyword.name" placeholder="name">
+      <input [(ngModel)]="keyword.keyword" placeholder="name">
     </label>
   </div>
   <button (click)="goBack()">go back</button>

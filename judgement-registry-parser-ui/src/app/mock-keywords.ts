@@ -1,7 +1,7 @@
 import { Keyword } from './keyword';
 
 export const KEYWORDS: Keyword[] = [
-  {name: 'keyword1'},
-  {name: 'keyword2'},
-  {name: 'keyword3'}
+  {keyword: 'keyword1'},
+  {keyword: 'keyword2'},
+  {keyword: 'keyword3'}
 ];

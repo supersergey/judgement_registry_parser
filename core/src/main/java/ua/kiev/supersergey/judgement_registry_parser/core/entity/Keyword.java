@@ -17,6 +17,6 @@ public class Keyword {
     private String keyword;
     @Column(name = "updated_ts")
     private Date updatedTs;
-    @OneToMany(mappedBy = "keyword")
+    @OneToMany(mappedBy = "keyword", fetch = FetchType.EAGER)
     private List<Document> documents;
 }

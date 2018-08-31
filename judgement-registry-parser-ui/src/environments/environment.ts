@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  port: 8080,
+  baseUrl: '/api',
+  host: 'http://localhost',
+  registryUrl: 'http://www.reyestr.court.gov.ua/Review/'
 };
 
 /*
