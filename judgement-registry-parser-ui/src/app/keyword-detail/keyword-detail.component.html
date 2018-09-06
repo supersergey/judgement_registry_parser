@@ -1,12 +1,27 @@
-<div *ngIf="keyword">
+<div *ngIf="documents">
 
-  <h2>{{keyword.keyword | uppercase}} Details</h2>
-  <div>
-    <label>keyword:
-      <input [(ngModel)]="keyword.keyword" placeholder="name">
-    </label>
-  </div>
+  <h2>Документы по {{keywordName}}</h2>
+  <table class="table table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Ссылка на документ</th>
+      <th scope="col">Тип решения</th>
+      <th scope="col">Суд</th>
+      <th scope="col">Судья</th>
+      <th scope="col">Дата обработки</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let doc of documents; index as j">
+      <td>{{j+1}}</td>
+      <td><a href="{{doc.fullUrl}}" target="_blank">{{doc.id}}</a></td>
+      <td>{{doc.judgementForm}}</td>
+      <td>{{doc.court}}</td>
+      <td>{{doc.judge}}</td>
+      <td>{{doc.createdTs | date:'d/M/y, HH:MM'}}</td>
+    </tr>
+    </tbody>
+  </table>
   <button (click)="goBack()">go back</button>
 </div>
-
-

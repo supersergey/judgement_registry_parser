@@ -1,8 +1,9 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {Keyword} from '../keyword';
+import { Document } from '../document';
 import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
 import {KeywordService} from "../keyword.service";
+import {Keyword} from "../keyword";
 
 @Component({
   selector: 'app-keyword-detail',
@@ -11,7 +12,8 @@ import {KeywordService} from "../keyword.service";
 })
 
 export class KeywordDetailComponent implements OnInit {
-  keyword: Keyword;
+  keywordName: string;
+  documents: Document[];
 
   constructor(private route: ActivatedRoute,
               private location: Location,
@@ -19,8 +21,8 @@ export class KeywordDetailComponent implements OnInit {
   }
 
   getKeyword() : void {
-    const name = this.route.snapshot.paramMap.get('name');
-    this.keywordService.getKeyword(name).subscribe(keyword => this.keyword = keyword);
+    this.keywordName = this.route.snapshot.paramMap.get('keyword');
+    this.keywordService.getDocumentsByKeyword(this.keywordName).subscribe(documents => this.documents = documents);
   }
 
   goBack() : void {
@@ -30,5 +32,4 @@ export class KeywordDetailComponent implements OnInit {
   ngOnInit() {
     this.getKeyword();
   }
-
 }

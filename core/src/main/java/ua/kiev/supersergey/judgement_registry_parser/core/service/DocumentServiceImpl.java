@@ -1,6 +1,7 @@
 package ua.kiev.supersergey.judgement_registry_parser.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
@@ -40,5 +41,10 @@ public class DocumentServiceImpl implements DocumentService{
                     .filter(incDoc -> !existingDocumentsIds.contains(incDoc.getId())).collect(Collectors.toList());
             documentRepository.saveAll(documentsToSave);
         });
+    }
+
+    @Override
+    public List<Document> findDocumentsByKeyword(String keyword, Integer page, Integer size) {
+        return documentRepository.findByKeyword_Keyword(keyword, PageRequest.of(page, size)).getContent();
     }
 }

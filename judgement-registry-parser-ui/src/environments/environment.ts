@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   port: 8080,
-  baseUrl: '/api',
+  baseUrl: 'api',
   host: 'http://localhost',
   registryUrl: 'http://www.reyestr.court.gov.ua/Review/'
 };

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Keyword } from './keyword';
+import { Document } from "./document";
 import { KEYWORDS } from './mock-keywords';
 import { Observable, of } from 'rxjs';
 import { MessageService} from './message.service';
@@ -25,7 +26,8 @@ export class KeywordService {
     this.messageService.add(message);
   }
 
-  getKeyword(name : string): Observable<Keyword> {
-    return of(KEYWORDS.find(keyword => keyword.keyword === name));
+  getDocumentsByKeyword(name : string): Observable<Document[]> {
+    const endpoint = "/keyword/" + name;
+    return this.http.get<Document[]>(this.requestUrl + endpoint);
   }
 }
