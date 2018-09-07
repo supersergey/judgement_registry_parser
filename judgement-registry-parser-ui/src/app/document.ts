@@ -9,4 +9,5 @@ export class Document {
   public legalDate: Date;
   public approvalDate: Date;
   public fullUrl;
+  public keyword : string;
 }

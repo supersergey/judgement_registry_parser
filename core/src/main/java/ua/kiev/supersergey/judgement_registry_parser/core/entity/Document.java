@@ -13,6 +13,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity(name = "document")
+@ToString
+@EqualsAndHashCode
 public class Document {
     @Id
     private String id;

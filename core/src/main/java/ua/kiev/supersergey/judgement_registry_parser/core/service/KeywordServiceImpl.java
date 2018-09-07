@@ -9,6 +9,7 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import ua.kiev.supersergey.judgement_registry_parser.core.dao.KeywordRepository;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.Keyword;
+import ua.kiev.supersergey.judgement_registry_parser.core.entity.KeywordStatus;
 import ua.kiev.supersergey.judgement_registry_parser.core.registryclient.RegistryWebClient;
 import ua.kiev.supersergey.judgement_registry_parser.core.registryclient.parser.RegistryResponseParser;
 
@@ -45,9 +46,11 @@ public class KeywordServiceImpl implements KeywordService {
 
     @Override
     @Transactional
-    public String addKeyword(Keyword keyword) {
-        String savedKeyword = keywordRepository.save(keyword).getKeyword();
+    public Keyword addKeyword(Keyword keyword) {
+
+        Keyword savedKeyword = keywordRepository.save(keyword);
         Mono.just(savedKeyword)
+                .map(Keyword::getKeyword)
                 .subscribeOn(Schedulers.parallel())
                 .map(registryWebClient::fetchResult)
                 .map(parser::parse)
@@ -55,5 +58,13 @@ public class KeywordServiceImpl implements KeywordService {
                             documentService.saveAll(keyword, documents)
                 );
         return savedKeyword;
+    }
+
+    @Override
+    @Transactional
+    public Keyword deleteKeyword(Keyword keyword) {
+        keyword.setStatus(KeywordStatus.DELETED);
+        keywordRepository.save(keyword);
+        return keyword;
     }
 }

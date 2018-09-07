@@ -1,9 +1,35 @@
-<div>
-  <ul class="keywords">
-    <li *ngFor="let keyword of keywords">
-        <a routerLink="/keyword/{{keyword.keyword}}">
-          <span class="badge">{{keyword.keyword}}</span>
-        </a>
-    </li>
-  </ul>
+<h2>Все ключевые слова</h2>
+<div class="col-6">
+  <table class="table table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Ключевое слово</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let keyword of keywords; index as j">
+      <td>{{j+1}}</td>
+      <td><a href="/keyword/{{keyword.keyword}}">{{keyword.keyword}}</a>
+        <button type="button" class="close" aria-label="Close" title="Удалить" data-toggle="tooltip"
+                data-placement="right"
+                (click)="deleteKeyword(keyword)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="col-6">
+  <div class="input-group mb-3">
+    <input #newKeyword (keyup.enter)="addKeyword(newKeyword.value)"
+           type="text" class="form-control" placeholder="Ключевое слово" aria-label="new keyword"
+           aria-describedby="button-addon2" id="add-keyword-input">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" type="button" id="add-keyword" (click)="addKeyword(newKeyword.value)">
+        +
+      </button>
+    </div>
+  </div>
 </div>

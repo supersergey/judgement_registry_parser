@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from "../dashboard.service";
-import { DashboardEntry } from "../dashboard-entry";
-import {environment} from "../../environments/environment";
+import { Document } from "../document";
+import { environment } from "../../environments/environment";
+import {KeyValue} from "@angular/common";
+import {DashboardEntry} from "../dashboard-entry";
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +12,7 @@ import {environment} from "../../environments/environment";
 })
 export class DashboardComponent implements OnInit {
 
-  dashboardEntries: DashboardEntry[] = [];
+  entries: DashboardEntry[];
 
   constructor(private dashboardService: DashboardService) { }
 
@@ -20,15 +22,20 @@ export class DashboardComponent implements OnInit {
 
   getDashboardEntries(): void {
     this.dashboardService.getDashboardEntries()
-      .subscribe(entries => this.dashboardEntries = DashboardComponent.processEntries(entries));
+      .subscribe(entries => this.entries = DashboardComponent.processEntries(entries));
   }
 
-  private static processEntries(entries: DashboardEntry[]) : DashboardEntry[] {
-    for (let entry of entries) {
-      for (let doc of entry.documents) {
-        doc.fullUrl = environment.registryUrl + doc.id;
-      }
+  private static processEntries(entries : Map<string, Document[]>) : DashboardEntry[] {
+    let result : DashboardEntry[] = [];
+    let keys : string [] = Object.keys(entries);
+    for (let key of keys) {
+      let docs = entries[key];
+      let dashboardEntry : DashboardEntry;
+      docs.forEach(d => {
+        d.fullUrl = environment.registryUrl + d.id;
+      });
+      result.push(new DashboardEntry(key, docs));
     }
-    return entries;
+    return result || [];
   }
 }

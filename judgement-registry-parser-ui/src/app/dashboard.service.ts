@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {MessageService} from "./message.service";
 import {Observable} from "rxjs/index";
-import {DashboardEntry} from "./dashboard-entry";
 import {environment} from "../environments/environment";
+import {Document} from "./document";
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +11,13 @@ import {environment} from "../environments/environment";
 export class DashboardService {
 
   private requestUrl = environment.host + ':' + environment.port + '/' + environment.baseUrl;
-  constructor(private http: HttpClient,
-              private messageService : MessageService) { }
 
-  public getDashboardEntries(): Observable<DashboardEntry[]> {
+  constructor(private http: HttpClient,
+              private messageService: MessageService) {
+  }
+
+  public getDashboardEntries(): Observable<Map<string, Document[]>> {
     const endpoint = '/dashboard';
-    return this.http.get<DashboardEntry[]>(this.requestUrl + endpoint);
+    return this.http.get<Map<string, Document[]>>(this.requestUrl + endpoint);
   }
 }

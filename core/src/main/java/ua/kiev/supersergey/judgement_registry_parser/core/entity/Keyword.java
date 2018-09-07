@@ -1,6 +1,7 @@
 package ua.kiev.supersergey.judgement_registry_parser.core.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Data
 @Entity(name = "keyword")
+@EqualsAndHashCode
 public class Keyword {
     @Id
     @NotNull
@@ -17,6 +19,18 @@ public class Keyword {
     private String keyword;
     @Column(name = "updated_ts")
     private Date updatedTs;
-    @OneToMany(mappedBy = "keyword", fetch = FetchType.EAGER)
+    @Enumerated(value = EnumType.STRING)
+    private KeywordStatus status;
+    @OneToMany(mappedBy = "keyword", fetch = FetchType.LAZY)
     private List<Document> documents;
+
+    @Override
+    public String toString() {
+        return "Keyword{" +
+                "keyword='" + keyword + '\'' +
+                ", updatedTs=" + updatedTs +
+                ", status=" + status +
+                ", documents=" + documents.size() +
+                '}';
+    }
 }

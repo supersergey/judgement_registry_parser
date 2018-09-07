@@ -8,7 +8,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let dashboardEntry of dashboardEntries; index as i">
+  <tr *ngFor="let dashboardEntry of entries; index as i">
     <th scope="row">{{i+1}}</th>
     <td><a href="/keyword/{{dashboardEntry.keyword}}">{{dashboardEntry.keyword}}</a></td>
     <td>
@@ -24,7 +24,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let doc of dashboardEntry.documents; index as j">
+        <tr *ngFor="let doc of dashboardEntry.getDocuments(); index as j">
           <td>{{j+1}}</td>
           <td><a href="{{doc.fullUrl}}" target="_blank">{{doc.id}}</a></td>
           <td>{{doc.judgementForm}}</td>

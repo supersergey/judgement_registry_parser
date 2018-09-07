@@ -9,5 +9,4 @@ import java.util.List;
 public class KeywordDto {
     private String keyword;
     private Date updatedTs;
-    private List<DocumentDto> documents;
 }

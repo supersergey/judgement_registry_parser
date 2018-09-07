@@ -1,3 +1,3 @@
-export class Keyword {
-  keyword: string;
+export interface Keyword {
+  keyword : string;
 }

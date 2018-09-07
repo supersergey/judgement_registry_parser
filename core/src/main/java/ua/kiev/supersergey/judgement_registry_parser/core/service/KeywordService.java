@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface KeywordService {
     List<Keyword> getAllKeywords(int page, int size);
     Optional<Keyword> findOne(String name);
-    String addKeyword(Keyword keyword);
+    Keyword addKeyword(Keyword keyword);
+    Keyword deleteKeyword(Keyword k);
 }

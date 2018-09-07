@@ -21,7 +21,6 @@ public class KeywordEntityToDtoConverter extends EntityToDtoConverter<Keyword, K
         KeywordDto dto = new KeywordDto();
         dto.setKeyword(keyword.getKeyword());
         dto.setUpdatedTs(keyword.getUpdatedTs());
-        dto.setDocuments(documentConverter.apply(keyword.getDocuments()));
         return dto;
     }
 }

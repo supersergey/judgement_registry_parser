@@ -1,6 +1,8 @@
 package ua.kiev.supersergey.judgement_registry_parser.core.contoller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
@@ -14,7 +16,10 @@ import ua.kiev.supersergey.judgement_registry_parser.core.service.DocumentServic
 import ua.kiev.supersergey.judgement_registry_parser.core.service.KeywordService;
 
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
@@ -56,12 +61,25 @@ public class KeywordController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addKeyword(@RequestBody @Valid Keyword keyword) {
+    public ResponseEntity<?> addKeyword(@RequestBody @Valid Keyword keyword) {
         if (keywordService.findOne(keyword.getKeyword()).isPresent()) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
-                    .build();
+                    .body("The specified keyword already exists: " + keyword.getKeyword());
         }
         return ResponseEntity.ok(keywordService.addKeyword(keyword));
+    }
+
+    @PutMapping("/{keyword}")
+    public ResponseEntity<?> deleteKeyword(@PathVariable("keyword") String keyword) {
+        Optional<Keyword> existingKeyword = keywordService.findOne(keyword);
+        if (existingKeyword.isPresent()) {
+            keywordService.deleteKeyword(existingKeyword.get());
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.setAccessControlAllowOrigin("*");
+            responseHeaders.setAccessControlAllowMethods(Collections.singletonList(HttpMethod.PUT));
+            return ResponseEntity.ok(keywordConverter.applySingle(existingKeyword.get()));
+        }
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Cannot delete keyword: " + keyword);
     }
 }
