@@ -10,12 +10,16 @@
     <tbody>
     <tr *ngFor="let keyword of keywords; index as j">
       <td>{{j+1}}</td>
-      <td><a href="/keyword/{{keyword.keyword}}">{{keyword.keyword}}</a>
-        <button type="button" class="close" aria-label="Close" title="Удалить" data-toggle="tooltip"
+      <td ><a href="/keyword/{{keyword.keyword}}">{{keyword.keyword}}</a></td>
+      <td>
+        <i class="fa fa-refresh" aria-label="Delete" title="Обновить" data-toggle="tooltip"
+                data-placement="right"></i>
+      </td>
+      <td>
+        <i class="close fa fa-trash" aria-label="Delete" title="Удалить" data-toggle="tooltip"
                 data-placement="right"
                 (click)="deleteKeyword(keyword)">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        </i>
       </td>
     </tr>
     </tbody>
@@ -28,7 +32,11 @@
            aria-describedby="button-addon2" id="add-keyword-input">
     <div class="input-group-append">
       <button class="btn btn-outline-secondary" type="button" id="add-keyword" (click)="addKeyword(newKeyword.value)">
-        +
+        <i class="fa fa-plus"></i>
+      </button>
+      <button class="btn btn-outline-secondary" type="button" id="search-keyword"
+              (click)="addKeyword(newKeyword.value)">
+        <i class="fa fa-search"></i>
       </button>
     </div>
   </div>

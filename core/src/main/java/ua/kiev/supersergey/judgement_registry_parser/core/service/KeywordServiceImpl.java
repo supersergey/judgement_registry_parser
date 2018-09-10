@@ -3,11 +3,14 @@ package ua.kiev.supersergey.judgement_registry_parser.core.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import ua.kiev.supersergey.judgement_registry_parser.core.dao.KeywordRepository;
+import ua.kiev.supersergey.judgement_registry_parser.core.entity.Document;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.Keyword;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.KeywordStatus;
 import ua.kiev.supersergey.judgement_registry_parser.core.registryclient.RegistryWebClient;
@@ -15,6 +18,8 @@ import ua.kiev.supersergey.judgement_registry_parser.core.registryclient.parser.
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -35,7 +40,7 @@ public class KeywordServiceImpl implements KeywordService {
     @Override
     @Transactional
     public List<Keyword> getAllKeywords(int page, int size) {
-        return keywordRepository.findAll(PageRequest.of(page, size)).getContent();
+        return keywordRepository.findByAllNotDeleted(PageRequest.of(page, size)).getContent();
     }
 
     @Override
@@ -47,16 +52,21 @@ public class KeywordServiceImpl implements KeywordService {
     @Override
     @Transactional
     public Keyword addKeyword(Keyword keyword) {
-
         Keyword savedKeyword = keywordRepository.save(keyword);
         Mono.just(savedKeyword)
                 .map(Keyword::getKeyword)
-                .subscribeOn(Schedulers.parallel())
-                .map(registryWebClient::fetchResult)
+                .flatMap(registryWebClient::fetchResult)
                 .map(parser::parse)
-                .subscribe(documents ->
-                            documentService.saveAll(keyword, documents)
+                .subscribe(
+                        documentStream -> {
+                            List<Document> documents = documentStream.collect(Collectors.toList());
+                            documents.forEach(doc -> doc.setKeyword(keyword));
+                            keyword.setDocuments(documents);
+                            keywordRepository.save(keyword);
+                            System.out.println("Saving keyword" + keyword + ", doc.size= " + keyword.getDocuments().size());
+                        }
                 );
+        System.out.println("Exiting from addKeyword");
         return savedKeyword;
     }
 

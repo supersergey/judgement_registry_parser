@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 public class DocumentDto {
-    private String id;
+    private String registryId;
     private String decisionType;
     private LocalDate approvalDate;
     private LocalDate legalDate;

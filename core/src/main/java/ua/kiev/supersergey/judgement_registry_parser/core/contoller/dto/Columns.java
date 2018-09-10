@@ -5,6 +5,7 @@ public enum Columns {
     JUDGEMENT_FORM("judgementForm"),
     JUDGE("judge"),
     CREATED_TS("createdTs"),
+    UPDATED_TS("updatedTs"),
     COURT("court"),
     DECISION_TYPE("decisionType");
 

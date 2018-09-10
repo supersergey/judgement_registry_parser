@@ -1,4 +1,4 @@
-import { Keyword } from './keyword';
+import { Keyword } from './keywords/keyword';
 
 export const KEYWORDS: Keyword[] = [
   {keyword: 'keyword1'},

@@ -26,7 +26,7 @@ public class RegistryResponseParserTest {
 
     @Test
     public void parse() {
-        Mono<Stream<Document>> documents = parser.parse(Mono.just(new String(html, StandardCharsets.UTF_8)));
-        documents.subscribe(documentStream -> documentStream.forEach(System.out::println));
+//        Mono<Stream<Document>> documents = parser.parse(Mono.just(new String(html, StandardCharsets.UTF_8)));
+//        documents.subscribe(documentStream -> documentStream.forEach(System.out::println));
     }
 }

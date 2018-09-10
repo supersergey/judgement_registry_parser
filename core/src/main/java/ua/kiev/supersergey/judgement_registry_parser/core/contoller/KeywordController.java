@@ -70,14 +70,11 @@ public class KeywordController {
         return ResponseEntity.ok(keywordService.addKeyword(keyword));
     }
 
-    @PutMapping("/{keyword}")
+    @DeleteMapping("/{keyword}")
     public ResponseEntity<?> deleteKeyword(@PathVariable("keyword") String keyword) {
         Optional<Keyword> existingKeyword = keywordService.findOne(keyword);
         if (existingKeyword.isPresent()) {
             keywordService.deleteKeyword(existingKeyword.get());
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.setAccessControlAllowOrigin("*");
-            responseHeaders.setAccessControlAllowMethods(Collections.singletonList(HttpMethod.PUT));
             return ResponseEntity.ok(keywordConverter.applySingle(existingKeyword.get()));
         }
         return ResponseEntity.status(HttpStatus.CONFLICT).body("Cannot delete keyword: " + keyword);

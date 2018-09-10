@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Keyword } from '../keyword'
-import { KeywordService} from '../keyword.service';
+import { Keyword } from './keyword'
+import { KeywordService} from './keyword.service';
 
 @Component({
   selector: 'app-keywords',

@@ -8,7 +8,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let dashboardEntry of entries; index as i">
+  <tr *ngFor="let dashboardEntry of dashboardEntries; index as i">
     <th scope="row">{{i+1}}</th>
     <td><a href="/keyword/{{dashboardEntry.keyword}}">{{dashboardEntry.keyword}}</a></td>
     <td>
@@ -26,7 +26,7 @@
         <tbody>
         <tr *ngFor="let doc of dashboardEntry.getDocuments(); index as j">
           <td>{{j+1}}</td>
-          <td><a href="{{doc.fullUrl}}" target="_blank">{{doc.id}}</a></td>
+          <td><a href="http://www.reyestr.court.gov.ua/Review/{{doc.registryId}}" target="_blank">{{doc.registryId}}</a></td>
           <td>{{doc.judgementForm}}</td>
           <td>{{doc.court}}</td>
           <td>{{doc.judge}}</td>
@@ -38,3 +38,11 @@
   </tr>
   </tbody>
 </table>
+
+<div class="container">
+  <div class="row">
+    <div class="col-4 mx-auto">
+      <ngb-pagination [collectionSize]=collectionSize [(page)]=page aria-label="Default pagination"></ngb-pagination>
+    </div>
+  </div>
+</div>

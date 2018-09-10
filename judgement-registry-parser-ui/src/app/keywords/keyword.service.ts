@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
 import {Keyword} from './keyword';
-import {Document} from "./document";
-import {KEYWORDS} from './mock-keywords';
+import {Document} from "../document";
+import {KEYWORDS} from '../mock-keywords';
 import {Observable, throwError} from 'rxjs';
-import {MessageService} from './message.service';
+import {MessageService} from '../message.service';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import {environment} from '../environments/environment';
+import {environment} from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Origin': '*'
   })
 };
@@ -50,6 +50,6 @@ export class KeywordService {
 
   deleteKeyword(keyword: Keyword) : Observable<Keyword> {
     const endpoint = `${this.requestUrl}/keyword/${keyword.keyword}`;
-    return this.http.put<Keyword>(endpoint, httpOptions);
+    return this.http.delete<Keyword>(endpoint, httpOptions);
   }
 }

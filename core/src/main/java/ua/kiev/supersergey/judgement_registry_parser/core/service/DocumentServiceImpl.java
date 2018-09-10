@@ -2,9 +2,11 @@ package ua.kiev.supersergey.judgement_registry_parser.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import ua.kiev.supersergey.judgement_registry_parser.core.contoller.dto.Columns;
 import ua.kiev.supersergey.judgement_registry_parser.core.dao.DocumentRepository;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.Document;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.Keyword;
@@ -32,19 +34,20 @@ public class DocumentServiceImpl implements DocumentService{
             List<String> existingDocumentsIds =
                     StreamSupport.stream(
                             documentRepository
-                                    .findAllById(incomingDocuments.stream().map(Document::getId).collect(Collectors.toList()))
+                                    .findAllById(incomingDocuments.stream().map(Document::getRegistryId).collect(Collectors.toList()))
                                     .spliterator(),
                             false)
-                            .map(Document::getId)
+                            .map(Document::getRegistryId)
                             .collect(Collectors.toList());
             List<Document> documentsToSave = incomingDocuments.stream()
-                    .filter(incDoc -> !existingDocumentsIds.contains(incDoc.getId())).collect(Collectors.toList());
+                    .filter(incDoc -> !existingDocumentsIds.contains(incDoc.getRegistryId())).collect(Collectors.toList());
             documentRepository.saveAll(documentsToSave);
         });
     }
 
     @Override
     public List<Document> findDocumentsByKeyword(String keyword, Integer page, Integer size) {
-        return documentRepository.findByKeyword_Keyword(keyword, PageRequest.of(page, size)).getContent();
+        return documentRepository.findByKeyword_Keyword(keyword, PageRequest.of(page, size, Sort.Direction.DESC, Columns.CREATED_TS.getName()))
+                .getContent();
     }
 }

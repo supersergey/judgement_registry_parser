@@ -3,6 +3,7 @@ package ua.kiev.supersergey.judgement_registry_parser.core.entity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import javax.annotation.Generated;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
@@ -13,11 +14,11 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity(name = "document")
-@ToString
-@EqualsAndHashCode
 public class Document {
     @Id
-    private String id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+    private String registryId;
     private String decisionType;
     private LocalDate approvalDate;
     private LocalDate legalDate;

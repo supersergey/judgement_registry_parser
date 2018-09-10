@@ -14,7 +14,7 @@ public class DocumentEntityToDtoConverter extends EntityToDtoConverter<Document,
         dto.setCourt(document.getCourt());
         dto.setCreatedTs(document.getCreatedTs());
         dto.setDecisionType(document.getDecisionType());
-        dto.setId(document.getId());
+        dto.setRegistryId(document.getRegistryId());
         dto.setJudge(document.getJudge());
         dto.setJudgementForm(document.getJudgementForm());
         dto.setLegalDate(document.getLegalDate());

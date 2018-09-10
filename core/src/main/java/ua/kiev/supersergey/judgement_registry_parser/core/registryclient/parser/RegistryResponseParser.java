@@ -6,13 +6,17 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.Document;
 import ua.kiev.supersergey.judgement_registry_parser.core.registryclient.parser.exception.RegistryParserException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -21,26 +25,25 @@ import java.util.stream.Stream;
 public class RegistryResponseParser {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public Mono<Stream<Document>> parse(Mono<String> inputHtml) {
-        return inputHtml.map(html -> {
-            try {
-                Optional<Elements> divResult = Optional.ofNullable(Jsoup.parse(html).select("div#divresult"));
-                Optional<Element> table = Optional.ofNullable(divResult.orElseThrow(RegistryParserException::new).get(0));
-                Optional<Elements> rows = Optional.ofNullable(table.orElseThrow(RegistryParserException::new).select("tr"));
-                return IntStream.range(1, rows.orElseThrow(RegistryParserException::new).size())
-                        .mapToObj(i -> rows.get().get(i))
-                        .map(this::convertRowToRegistryResponse);
+    public Stream<Document> parse(String inputHtml) {
+        System.out.println("Parsing registry data");
+        try {
+            Optional<Elements> divResult = Optional.ofNullable(Jsoup.parse(inputHtml).select("div#divresult"));
+            Optional<Element> table = Optional.ofNullable(divResult.orElseThrow(RegistryParserException::new).get(0));
+            Optional<Elements> rows = Optional.ofNullable(table.orElseThrow(RegistryParserException::new).select("tr"));
+            return IntStream.range(1, rows.orElseThrow(RegistryParserException::new).size())
+                    .mapToObj(i -> rows.get().get(i))
+                    .map(this::convertRowToRegistryResponse);
 
-            } catch (RegistryParserException ex) {
-                log.error("Could not parse server response, no results found");
-                return Stream.empty();
-            }
-        });
+        } catch (RegistryParserException ex) {
+            log.error("Could not parse server response, no results found");
+            return Stream.empty();
+        }
     }
 
     private Document convertRowToRegistryResponse(Element element) {
         return Document.builder()
-                .id(element.select("a[href]").text())
+                .registryId(element.select("a[href]").text())
                 .decisionType(element.select(".VRType").text())
                 .approvalDate(parseDateElement(element, ".RegDate"))
                 .legalDate(parseDateElement(element, ".LawDate"))

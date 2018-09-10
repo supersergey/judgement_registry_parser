@@ -22,7 +22,8 @@ public class RegistryWebClient {
     }
 
     public Mono<String> fetchResult(String keyword) {
-        return fetchResult(keyword, LocalDate.now().minusMonths(1), LocalDate.now());
+        System.out.println("Fetching data from registry");
+        return fetchResult(keyword, LocalDate.now().minusWeeks(1), LocalDate.now());
     }
 
     public Mono<String> fetchResult(String keyword, LocalDate startDate, LocalDate finishDate) {

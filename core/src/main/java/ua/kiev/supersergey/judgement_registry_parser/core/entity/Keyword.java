@@ -2,6 +2,7 @@ package ua.kiev.supersergey.judgement_registry_parser.core.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,19 +19,10 @@ public class Keyword {
     @Size(min=2, max=30)
     private String keyword;
     @Column(name = "updated_ts")
+    @UpdateTimestamp
     private Date updatedTs;
     @Enumerated(value = EnumType.STRING)
     private KeywordStatus status;
-    @OneToMany(mappedBy = "keyword", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "keyword", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Document> documents;
-
-    @Override
-    public String toString() {
-        return "Keyword{" +
-                "keyword='" + keyword + '\'' +
-                ", updatedTs=" + updatedTs +
-                ", status=" + status +
-                ", documents=" + documents.size() +
-                '}';
-    }
 }

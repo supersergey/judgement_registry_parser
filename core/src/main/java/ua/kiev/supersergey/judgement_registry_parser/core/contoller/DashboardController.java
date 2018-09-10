@@ -15,6 +15,7 @@ import ua.kiev.supersergey.judgement_registry_parser.core.entity.Keyword;
 import ua.kiev.supersergey.judgement_registry_parser.core.service.DashboardService;
 
 import javax.xml.ws.Response;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,17 +39,18 @@ public class DashboardController {
     public ResponseEntity<?> getDashboardData(
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
-            @RequestParam(required = false, defaultValue = "ASC") String sortDirection,
-            @RequestParam(required = false, defaultValue = "KEYWORD") Columns sortColumn) {
-        Map<String, List<Document>> dashboardMap = dashboardService.loadDashboard(page, size, sortColumn, deriveSortDirection(sortDirection));
-        if (CollectionUtils.isEmpty(dashboardMap)) {
+            @RequestParam(required = false, defaultValue = "DESC") String sortDirection,
+            @RequestParam(required = false, defaultValue = "UPDATED_TS") Columns sortColumn) {
+        PaginatedResponse<Map<String, List<Document>>> dashboardMap = dashboardService.loadDashboard(page, size, sortColumn, deriveSortDirection(sortDirection));
+        if (CollectionUtils.isEmpty(dashboardMap.getPayload())) {
             new ResponseEntity<>("Dashboard data not found", HttpStatus.NOT_FOUND);
         }
         Map<String, List<DocumentDto>> result = new HashMap<>();
-        dashboardMap.forEach((keyword, documents) -> {
+        dashboardMap.getPayload().forEach((keyword, documents) -> {
+            documents.sort(Comparator.comparing(Document::getCreatedTs).reversed());
             result.put(keyword, documentConverter.apply(documents));
         });
-        return ResponseEntity.ok().body(result);
+        return ResponseEntity.ok().body(new PaginatedResponse<>(dashboardMap.getCollectionSize(), page, result));
     }
 
     private Sort.Direction deriveSortDirection(String sortDirection) {

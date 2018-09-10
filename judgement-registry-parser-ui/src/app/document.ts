@@ -1,5 +1,5 @@
 export class Document {
-  public id: string;
+  public registryId: string;
   public decisionType: string;
   public judgementForm: string;
   public court: string;
