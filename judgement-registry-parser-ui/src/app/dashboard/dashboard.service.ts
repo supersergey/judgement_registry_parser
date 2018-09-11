@@ -15,8 +15,8 @@ export class DashboardService {
   constructor(private http: HttpClient) {
   }
 
-  public getDashboardEntries(): Observable<Page<Map<string, Document[]>>> {
-    const endpoint = '/dashboard';
+  public getDashboardEntries(page : number, size : number): Observable<Page<Map<string, Document[]>>> {
+    const endpoint = `/dashboard?page=${page}&size=${size}`;
     return this.http.get<Page<Map<string, Document[]>>>(this.requestUrl + endpoint);
   }
 }

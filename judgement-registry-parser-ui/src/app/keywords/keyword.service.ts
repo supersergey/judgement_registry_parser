@@ -19,6 +19,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+
 export class KeywordService {
   requestUrl = environment.host + ':' + environment.port + '/' + environment.baseUrl;
   keyword : Keyword;

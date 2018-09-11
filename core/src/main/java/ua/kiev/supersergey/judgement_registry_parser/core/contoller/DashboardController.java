@@ -15,10 +15,7 @@ import ua.kiev.supersergey.judgement_registry_parser.core.entity.Keyword;
 import ua.kiev.supersergey.judgement_registry_parser.core.service.DashboardService;
 
 import javax.xml.ws.Response;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
@@ -45,7 +42,7 @@ public class DashboardController {
         if (CollectionUtils.isEmpty(dashboardMap.getPayload())) {
             new ResponseEntity<>("Dashboard data not found", HttpStatus.NOT_FOUND);
         }
-        Map<String, List<DocumentDto>> result = new HashMap<>();
+        Map<String, List<DocumentDto>> result = new LinkedHashMap<>();
         dashboardMap.getPayload().forEach((keyword, documents) -> {
             documents.sort(Comparator.comparing(Document::getCreatedTs).reversed());
             result.put(keyword, documentConverter.apply(documents));

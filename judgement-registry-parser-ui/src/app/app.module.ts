@@ -12,6 +12,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { HeaderComponent } from './ui/header/header.component';
 import { FooterComponent } from './ui/footer/footer.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -21,14 +22,15 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     MessagesComponent,
     DashboardComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbPaginationModule
+    NgbPaginationModule,
+    NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

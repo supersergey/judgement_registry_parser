@@ -26,7 +26,7 @@ public class RegistryResponseParser {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public Stream<Document> parse(String inputHtml) {
-        System.out.println("Parsing registry data");
+        log.info("Parsing registry data");
         try {
             Optional<Elements> divResult = Optional.ofNullable(Jsoup.parse(inputHtml).select("div#divresult"));
             Optional<Element> table = Optional.ofNullable(divResult.orElseThrow(RegistryParserException::new).get(0));
@@ -34,8 +34,7 @@ public class RegistryResponseParser {
             return IntStream.range(1, rows.orElseThrow(RegistryParserException::new).size())
                     .mapToObj(i -> rows.get().get(i))
                     .map(this::convertRowToRegistryResponse);
-
-        } catch (RegistryParserException ex) {
+        } catch (Exception ex) {
             log.error("Could not parse server response, no results found");
             return Stream.empty();
         }

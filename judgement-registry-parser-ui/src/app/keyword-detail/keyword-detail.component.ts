@@ -1,9 +1,8 @@
 import {Component, OnInit, Input} from '@angular/core';
 import { Document } from '../document';
-import {ActivatedRoute} from "@angular/router";
-import {Location} from "@angular/common";
-import {KeywordService} from "../keywords/keyword.service";
-import {Keyword} from "../keywords/keyword";
+import { ActivatedRoute } from "@angular/router";
+import { Location } from "@angular/common";
+import { KeywordService } from "../keywords/keyword.service";
 
 @Component({
   selector: 'app-keyword-detail',

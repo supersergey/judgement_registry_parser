@@ -12,22 +12,27 @@ import { Document } from "../document";
 export class DashboardComponent implements OnInit {
 
   collectionSize: number;
+  pageSize : number = environment.defaultPageSize;
   page: number = 0;
   dashboardEntries: DashboardEntry[];
 
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
-    this.getDashboardEntries();
+    this.getDashboardEntries(1, environment.defaultPageSize);
   }
 
-  getDashboardEntries(): void {
-    this.dashboardService.getDashboardEntries()
-      .subscribe(page => {
-        this.collectionSize = page.collectionSize;
-        this.page = page.page;
-        this.dashboardEntries = DashboardComponent.processEntries(page.payload);
+  getDashboardEntries(page : number, size : number): void {
+    this.dashboardService.getDashboardEntries(page - 1, size)
+      .subscribe(dashboardPage => {
+        this.collectionSize = dashboardPage.collectionSize;
+        this.page = dashboardPage.page + 1;
+        this.dashboardEntries = DashboardComponent.processEntries(dashboardPage.payload);
       });
+  }
+
+  changePage(newPage : any) : void {
+    this.getDashboardEntries(newPage, environment.defaultPageSize);
   }
 
   private static processEntries(entries : Map<string, Document[]>) : DashboardEntry[] {
@@ -43,4 +48,6 @@ export class DashboardComponent implements OnInit {
     }
     return result || [];
   }
+
+
 }

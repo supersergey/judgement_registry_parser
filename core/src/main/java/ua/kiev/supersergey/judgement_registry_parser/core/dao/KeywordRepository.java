@@ -9,6 +9,7 @@ import ua.kiev.supersergey.judgement_registry_parser.core.entity.Keyword;
 
 @Repository
 public interface KeywordRepository extends PagingAndSortingRepository<Keyword, String> {
-    @Query("select Keyword from keyword Keyword where Keyword.status <> 'DELETED' or Keyword.status IS NULL")
+    @Query("select distinct Keyword from keyword Keyword left join document Document on Keyword.keyword = Document.keyword " +
+            "where (Document.keyword is not NULL) and (Keyword.status <> 'DELETED' or Keyword.status IS NULL)")
     Page<Keyword> findByAllNotDeleted(Pageable pageable);
 }

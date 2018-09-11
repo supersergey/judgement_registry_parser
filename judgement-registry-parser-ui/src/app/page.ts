@@ -1,16 +1,15 @@
-export class Page<T> {
-  public constructor(public collectionSize: number, public page: number, public payload : T) {
-  }
+export class Page<T>{
+  constructor(public page : number, public collectionSize : number, public payload : T) {}
 
-  public getCollectionSize() : number {
-    return this.collectionSize;
-  };
-
-  public getPage() : number {
+  getPage() : number {
     return this.page;
   }
 
-  public getPayload(): T {
+  getCollectionSize(): number {
+    return this.collectionSize;
+  }
+
+  getPayload() : T {
     return this.payload;
   }
 }

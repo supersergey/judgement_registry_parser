@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 public class Keyword {
     @Id
     @NotNull
-    @Size(min=2, max=30)
+    @Size(min=3, max=30)
     private String keyword;
     @Column(name = "updated_ts")
     @UpdateTimestamp

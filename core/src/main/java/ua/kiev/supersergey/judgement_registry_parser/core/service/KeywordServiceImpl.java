@@ -55,26 +55,24 @@ public class KeywordServiceImpl implements KeywordService {
         Keyword savedKeyword = keywordRepository.save(keyword);
         Mono.just(savedKeyword)
                 .map(Keyword::getKeyword)
+                .subscribeOn(Schedulers.parallel())
                 .flatMap(registryWebClient::fetchResult)
                 .map(parser::parse)
-                .subscribe(
-                        documentStream -> {
-                            List<Document> documents = documentStream.collect(Collectors.toList());
-                            documents.forEach(doc -> doc.setKeyword(keyword));
-                            keyword.setDocuments(documents);
-                            keywordRepository.save(keyword);
-                            System.out.println("Saving keyword" + keyword + ", doc.size= " + keyword.getDocuments().size());
-                        }
-                );
-        System.out.println("Exiting from addKeyword");
+                .doOnNext(documentStream -> {
+                    List<Document> documents = documentStream.collect(Collectors.toList());
+                    documents.forEach(doc -> doc.setKeyword(keyword));
+                    keyword.setDocuments(documents);
+                    keywordRepository.save(keyword);
+                    log.info("Saved keyword" + keyword.getKeyword() + ", doc.size= " + keyword.getDocuments().size());
+                })
+                .subscribe();
         return savedKeyword;
     }
 
     @Override
     @Transactional
-    public Keyword deleteKeyword(Keyword keyword) {
-        keyword.setStatus(KeywordStatus.DELETED);
-        keywordRepository.save(keyword);
-        return keyword;
+    public void deleteKeyword(Keyword keyword) {
+        log.info("Deleting keyword: " + keyword.getKeyword());
+        keywordRepository.delete(keyword);
     }
 }
