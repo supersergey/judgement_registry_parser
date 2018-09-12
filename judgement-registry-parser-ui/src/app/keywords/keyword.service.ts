@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Keyword} from './keyword';
 import {Document} from "../document";
-import {KEYWORDS} from '../mock-keywords';
 import {Observable, throwError} from 'rxjs';
-import {MessageService} from '../message.service';
+import {MessageService} from '../messages/message.service';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import {environment} from '../../environments/environment';
 
@@ -28,7 +27,6 @@ export class KeywordService {
 
 
   getKeywords() : Observable<Keyword[]> {
-    this.log("Fetched keywords: " + KEYWORDS.length);
     const endpoint = "/keyword";
     return this.http.get<Keyword[]>(this.requestUrl + endpoint);
   }

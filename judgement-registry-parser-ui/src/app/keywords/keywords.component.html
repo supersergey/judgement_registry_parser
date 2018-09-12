@@ -5,16 +5,18 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Ключевое слово</th>
+      <th scope="col">Последнее обновление</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let keyword of keywords; index as j">
       <td>{{j+1}}</td>
       <td ><a href="/keyword/{{keyword.keyword}}">{{keyword.keyword}}</a></td>
+      <td>{{keyword.updatedTs | date: 'dd/MM/yyyy HH:mm'}}</td>
       <td>
         <i class="close fa fa-refresh" aria-label="Refresh" title="Обновить" data-toggle="tooltip"
                 data-placement="right" ngbTooltip="Обновить"
-                (click)="refreshKeyword(keyword)"></i>
+                (click)="updateKeyword(keyword)"></i>
       </td>
       <td>
         <i class="close fa fa-trash" aria-label="Delete" title="Удалить" data-toggle="tooltip"
@@ -57,3 +59,4 @@
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Подтвердить</button>
   </div>
 </ng-template>
+<app-messages></app-messages>

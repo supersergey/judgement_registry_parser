@@ -12,6 +12,7 @@ import ua.kiev.supersergey.judgement_registry_parser.core.contoller.dto.KeywordD
 import ua.kiev.supersergey.judgement_registry_parser.core.contoller.dtoconverter.EntityToDtoConverter;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.Document;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.Keyword;
+import ua.kiev.supersergey.judgement_registry_parser.core.entity.KeywordStatus;
 import ua.kiev.supersergey.judgement_registry_parser.core.service.DocumentService;
 import ua.kiev.supersergey.judgement_registry_parser.core.service.KeywordService;
 
@@ -62,12 +63,16 @@ public class KeywordController {
 
     @PostMapping
     public ResponseEntity<?> addKeyword(@RequestBody @Valid Keyword keyword) {
-        if (keywordService.findOne(keyword.getKeyword()).isPresent()) {
+        Optional<Keyword> existingKeyword = keywordService.findOne(keyword.getKeyword());
+        if (existingKeyword.isPresent() && existingKeyword.get().getStatus() != KeywordStatus.DELETED) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
                     .body("The specified keyword already exists: " + keyword.getKeyword());
         }
-        return ResponseEntity.ok(keywordService.addKeyword(keyword));
+        if (existingKeyword.isPresent() && existingKeyword.get().getStatus() == KeywordStatus.DELETED) {
+            keyword = existingKeyword.get();
+        }
+        return ResponseEntity.ok(keywordConverter.applySingle(keywordService.addKeyword(keyword)));
     }
 
     @DeleteMapping("/{keyword}")

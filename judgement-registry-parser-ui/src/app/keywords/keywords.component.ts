@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Keyword } from './keyword'
 import { KeywordService } from './keyword.service';
-import { ModalDismissReasons, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { MessageService } from "../messages/message.service";
 
 @Component({
   selector: 'app-keywords',
@@ -11,11 +12,11 @@ import { ModalDismissReasons, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 export class KeywordsComponent implements OnInit {
 
-  closeResult: string;
   keywordToDelete: string;
 
   constructor(private keywordService : KeywordService,
-              private modalService: NgbModal) {}
+              private modalService: NgbModal,
+              private messageService : MessageService) {}
 
 
   ngOnInit() {
@@ -25,7 +26,10 @@ export class KeywordsComponent implements OnInit {
   keywords : Keyword[];
 
   getKeywords() : void {
-    this.keywordService.getKeywords().subscribe(kwords => this.keywords = kwords);
+    this.keywordService.getKeywords().subscribe(kwords => {
+      this.keywords = kwords;
+      console.log(kwords)
+    });
   }
 
   addKeyword(keyword : string) {
@@ -49,7 +53,11 @@ export class KeywordsComponent implements OnInit {
     }, (reason) => {});
   }
 
-  refreshKeyword(keyword: Keyword) {
-    alert("refresh");
+  updateKeyword(keyword: Keyword) {
+    if (Date.now().valueOf() - new Date(keyword.updatedTs).valueOf() < 60*60*1000) {
+      this.messageService.add("Обновление возможно не чаще 1 раза в час.")
+    } else {
+      // this.keywordService.updateKeyword(keyword);
+    }
   }
 }

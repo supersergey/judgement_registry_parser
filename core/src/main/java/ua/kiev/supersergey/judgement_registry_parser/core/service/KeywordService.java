@@ -9,5 +9,5 @@ public interface KeywordService {
     List<Keyword> getAllKeywords(int page, int size);
     Optional<Keyword> findOne(String name);
     Keyword addKeyword(Keyword keyword);
-    void deleteKeyword(Keyword k);
+    Keyword deleteKeyword(Keyword k);
 }

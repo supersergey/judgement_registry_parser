@@ -7,6 +7,10 @@ import ua.kiev.supersergey.judgement_registry_parser.core.contoller.dto.KeywordD
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.Document;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.Keyword;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 @Service
 public class KeywordEntityToDtoConverter extends EntityToDtoConverter<Keyword, KeywordDto> {
     private EntityToDtoConverter<Document, DocumentDto> documentConverter;
@@ -20,7 +24,9 @@ public class KeywordEntityToDtoConverter extends EntityToDtoConverter<Keyword, K
     public KeywordDto applySingle(Keyword keyword) {
         KeywordDto dto = new KeywordDto();
         dto.setKeyword(keyword.getKeyword());
-        dto.setUpdatedTs(keyword.getUpdatedTs());
+        dto.setUpdatedTs(keyword.getUpdatedTs().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime());
         return dto;
     }
 }

@@ -8,7 +8,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public abstract class EntityToDtoConverter<ENTITY, DTO> implements Function<List<ENTITY>, List<DTO>> {
-    public abstract DTO applySingle(ENTITY ENTITY);
+    public abstract DTO applySingle(ENTITY entity);
 
     @Override
     public List<DTO> apply(List<ENTITY> entities) {
