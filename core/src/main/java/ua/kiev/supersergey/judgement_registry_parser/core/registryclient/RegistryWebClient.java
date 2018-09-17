@@ -23,11 +23,11 @@ public class RegistryWebClient {
         this.webClient = webClient;
     }
 
-    public Mono<String> fetchResult(String keyword) {
+    public String fetchResult(String keyword) {
         return fetchResult(keyword, LocalDate.now().minusWeeks(1), LocalDate.now());
     }
 
-    public Mono<String> fetchResult(String keyword, LocalDate startDate, LocalDate finishDate) {
+    public String fetchResult(String keyword, LocalDate startDate, LocalDate finishDate) {
         log.info("Fetching data from registry for keyword: " + keyword + ",startDate: " + startDate + ", finishDate: "+ finishDate);
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.put("SearchExpression", Collections.singletonList(keyword));
@@ -39,6 +39,7 @@ public class RegistryWebClient {
         return webClient.post()
                 .syncBody(formData)
                 .retrieve()
-                .bodyToMono(String.class);
+                .bodyToMono(String.class)
+                .block();
     }
 }

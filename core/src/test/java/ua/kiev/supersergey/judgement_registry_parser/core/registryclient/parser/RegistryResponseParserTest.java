@@ -4,13 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import reactor.core.publisher.Mono;
-import ua.kiev.supersergey.judgement_registry_parser.core.entity.Document;
 
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.stream.Stream;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RegistryResponseParserTest {

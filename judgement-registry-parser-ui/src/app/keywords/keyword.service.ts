@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Keyword} from './keyword';
 import {Document} from "../document";
-import {Observable, throwError} from 'rxjs';
-import {MessageService} from '../messages/message.service';
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
+import {MessageService} from "../messages/message.service";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -20,10 +20,9 @@ const httpOptions = {
 })
 
 export class KeywordService {
-  requestUrl = environment.host + ':' + environment.port + '/' + environment.baseUrl;
+  requestUrl = `${environment.host}:${environment.port}/${environment.baseUrl}`;
   keyword : Keyword;
-  constructor(private http: HttpClient,
-              private messageService : MessageService) { }
+  constructor(private http: HttpClient, private messageService : MessageService ) { }
 
 
   getKeywords() : Observable<Keyword[]> {
@@ -31,24 +30,28 @@ export class KeywordService {
     return this.http.get<Keyword[]>(this.requestUrl + endpoint);
   }
 
-  log(message : string) : void {
-    this.messageService.add(message);
-  }
-
   getDocumentsByKeyword(name : string): Observable<Document[]> {
-    const endpoint = "/keyword/" + name;
+    const endpoint = "/keyword/details/" + name;
     return this.http.get<Document[]>(this.requestUrl + endpoint);
   }
 
   addKeyword(newKeyword: Keyword) : Observable<Keyword> {
-    const endpoint = '/keyword/';
-    console.log(this.requestUrl + endpoint);
-    console.log(newKeyword);
-    return this.http.post<Keyword>(this.requestUrl + endpoint, newKeyword, httpOptions);
+    const endpoint = `${this.requestUrl}/keyword/`;
+    return this.http.post<Keyword>(endpoint, newKeyword, httpOptions);
   }
 
   deleteKeyword(keyword: Keyword) : Observable<Keyword> {
     const endpoint = `${this.requestUrl}/keyword/${keyword.keyword}`;
     return this.http.delete<Keyword>(endpoint, httpOptions);
+  }
+
+  updateKeyword(keyword: Keyword) {
+    const endpoint = `${this.requestUrl}/keyword/`;
+    return this.http.put<Keyword>(endpoint, keyword, httpOptions);
+  }
+
+  findKeyword(value: string) : Observable<Keyword[]>{
+    const endpoint = `${this.requestUrl}/keyword/${value}`;
+    return this.http.get<Keyword[]>(endpoint);
   }
 }

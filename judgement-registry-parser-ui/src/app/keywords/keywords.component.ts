@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Keyword } from './keyword'
-import { KeywordService } from './keyword.service';
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { MessageService } from "../messages/message.service";
+import {Component, OnInit} from '@angular/core';
+import {Keyword} from './keyword'
+import {KeywordService} from './keyword.service';
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {MessageService, MessageType} from "../messages/message.service";
 
 @Component({
   selector: 'app-keywords',
@@ -14,30 +14,30 @@ export class KeywordsComponent implements OnInit {
 
   keywordToDelete: string;
 
-  constructor(private keywordService : KeywordService,
+  constructor(private keywordService: KeywordService,
               private modalService: NgbModal,
-              private messageService : MessageService) {}
-
+              private messageService: MessageService) {
+  }
 
   ngOnInit() {
     this.getKeywords();
   }
 
-  keywords : Keyword[];
+  keywords: Keyword[];
 
-  getKeywords() : void {
+  getKeywords(): void {
     this.keywordService.getKeywords().subscribe(kwords => {
       this.keywords = kwords;
       console.log(kwords)
     });
   }
 
-  addKeyword(keyword : string) {
+  addKeyword(keyword: string) {
     keyword = keyword.trim();
     if (!keyword) {
       return;
     }
-    const newKeyword : Keyword = { keyword } as Keyword;
+    const newKeyword: Keyword = {keyword} as Keyword;
     this.keywordService.addKeyword(newKeyword).subscribe(kword => this.keywords.push(kword));
   }
 
@@ -50,14 +50,22 @@ export class KeywordsComponent implements OnInit {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.keywordService.deleteKeyword(keywordToDelete).subscribe();
       this.keywords = this.keywords.filter(item => item !== keywordToDelete);
-    }, (reason) => {});
+    }, (reason) => {
+    });
   }
 
   updateKeyword(keyword: Keyword) {
-    if (Date.now().valueOf() - new Date(keyword.updatedTs).valueOf() < 60*60*1000) {
-      this.messageService.add("Обновление возможно не чаще 1 раза в час.")
+    if (Date.now().valueOf() - new Date(keyword.updatedTs).valueOf() < 60 * 60 * 1000) {
+      this.messageService.add("Обновление возможно не чаще 1 раза в час.", MessageType.ERROR)
     } else {
-      // this.keywordService.updateKeyword(keyword);
+      keyword.updatedTs = new Date();
+      this.keywordService.updateKeyword(keyword).subscribe(() =>
+        this.messageService.add('Новые документы будут вскоре загружены', MessageType.NORMAL));
     }
+  }
+
+  findKeyword(value: string) {
+    this.keywordService.findKeyword(value).subscribe(keywords => this.keywords = keywords,
+      error => this.messageService.add(error.error, MessageType.ERROR));
   }
 }

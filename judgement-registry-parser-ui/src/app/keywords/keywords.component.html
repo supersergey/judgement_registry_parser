@@ -30,7 +30,7 @@
 </div>
 <div class="col-6">
   <div class="input-group mb-3">
-    <input #newKeyword (keyup.enter)="addKeyword(newKeyword.value)"
+    <input #newKeyword (keyup.enter)="findKeyword(newKeyword.value)"
            type="text" class="form-control" placeholder="Ключевое слово" aria-label="new keyword"
            aria-describedby="button-addon2" id="add-keyword-input">
     <div class="input-group-append">
@@ -38,7 +38,7 @@
         <i class="fa fa-plus"></i>
       </button>
       <button class="btn btn-outline-secondary" type="button" id="search-keyword"
-              (click)="addKeyword(newKeyword.value)">
+              (click)="findKeyword(newKeyword.value)">
         <i class="fa fa-search"></i>
       </button>
     </div>

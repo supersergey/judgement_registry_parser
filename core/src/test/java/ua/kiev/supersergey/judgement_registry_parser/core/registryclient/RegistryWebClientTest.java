@@ -32,10 +32,10 @@ public class RegistryWebClientTest {
 
     @Test
     public void fetchResult() throws Exception{
-        Mono<String> result = registryWebClient.fetchResult(KEYWORD,
+        String result = registryWebClient.fetchResult(KEYWORD,
                 LocalDate.now().minusMonths(1),
                 LocalDate.now());
-        result.subscribe(this::writeStringToFile);
+        this.writeStringToFile(result);
         Thread.sleep(5000);
     }
 

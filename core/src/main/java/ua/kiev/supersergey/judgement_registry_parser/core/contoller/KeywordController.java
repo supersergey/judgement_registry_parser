@@ -1,6 +1,7 @@
 package ua.kiev.supersergey.judgement_registry_parser.core.contoller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -48,17 +49,17 @@ public class KeywordController {
             @RequestParam(required = false, defaultValue = "10") Integer size) {
         List<Keyword> allKeywords = keywordService.getAllKeywords(page, size);
         return CollectionUtils.isEmpty(allKeywords) ?
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nothing is found") : ResponseEntity.ok(keywordConverter.apply(allKeywords));
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Данных нет") : ResponseEntity.ok(keywordConverter.apply(allKeywords));
     }
 
-    @GetMapping(path = "/{keyword}")
+    @GetMapping(path = "/details/{keyword}")
     public ResponseEntity<?> getDocumentsByKeyword(
             @PathVariable String keyword,
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size) {
         List<Document> documents = documentService.findDocumentsByKeyword(keyword, page, size);
         return CollectionUtils.isEmpty(documents) ?
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Documents not found") : ResponseEntity.ok(documentConverter.apply(documents));
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Документы по ключевому слову [" + keyword + "] не найдены.") : ResponseEntity.ok(documentConverter.apply(documents));
     }
 
     @PostMapping
@@ -67,12 +68,26 @@ public class KeywordController {
         if (existingKeyword.isPresent() && existingKeyword.get().getStatus() != KeywordStatus.DELETED) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
-                    .body("The specified keyword already exists: " + keyword.getKeyword());
+                    .body("Ключевое слово уже зарегистрировано в системе: " + keyword.getKeyword());
         }
         if (existingKeyword.isPresent() && existingKeyword.get().getStatus() == KeywordStatus.DELETED) {
             keyword = existingKeyword.get();
         }
         return ResponseEntity.ok(keywordConverter.applySingle(keywordService.addKeyword(keyword)));
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateKeyword(@RequestBody @Valid Keyword keyword) {
+        Optional<Keyword> existingKeyword = keywordService.findOne(keyword.getKeyword());
+        if (existingKeyword.isPresent() && existingKeyword.get().getStatus() != KeywordStatus.DELETED) {
+            Keyword updatedKeyword = keywordService.updateKeyword(existingKeyword.get());
+            return ResponseEntity.ok(keywordConverter.applySingle(updatedKeyword));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("Ключевое слово не найдено: " + keyword);
+
+        }
     }
 
     @DeleteMapping("/{keyword}")
@@ -82,6 +97,18 @@ public class KeywordController {
             keywordService.deleteKeyword(existingKeyword.get());
             return ResponseEntity.ok(keywordConverter.applySingle(existingKeyword.get()));
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Cannot delete keyword: " + keyword);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Ошибка при удаленини ключевого слова: " + keyword);
+    }
+
+    @GetMapping("/{keyword}")
+    public ResponseEntity<?> findByKeyword(@PathVariable("keyword") String keyword,
+                                           @RequestParam(required = false, defaultValue = "0") Integer page,
+                                           @RequestParam(required = false, defaultValue = "10") Integer size) {
+        Optional<List<Keyword>> existingKeyword = keywordService.findAllByKeyword(keyword, page, size);
+        if (existingKeyword.isPresent()) {
+            return ResponseEntity.ok(keywordConverter.apply(existingKeyword.get()));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ключевое слово не найдено: " + keyword);
+        }
     }
 }

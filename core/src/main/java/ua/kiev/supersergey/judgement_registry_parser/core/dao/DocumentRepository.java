@@ -11,10 +11,13 @@ import org.springframework.stereotype.Repository;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.Document;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Repository
 public interface DocumentRepository extends PagingAndSortingRepository<Document, String>{
-    Page<Document> findByKeyword_Keyword(String keyword, Pageable pageRequest);
+    Optional<Page<Document>> findByKeyword_KeywordIgnoreCase(String keyword, Pageable pageRequest);
+    Optional<Stream<String>> findDocumentIdsByKeyword_KeywordIgnoreCase(String keyword);
     @Query("select doc from document doc where doc.keyword.keyword = :keyword and doc.registryId in :registryIds")
     Page<Document> findAllByKeywordAndRegistryIds(@Param("keyword") String keyword,
                                                   @Param("registryIds") List<String> registryIds,
