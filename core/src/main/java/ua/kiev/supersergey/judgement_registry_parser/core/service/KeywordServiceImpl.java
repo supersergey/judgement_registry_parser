@@ -2,11 +2,13 @@ package ua.kiev.supersergey.judgement_registry_parser.core.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
+import ua.kiev.supersergey.judgement_registry_parser.core.contoller.PaginatedResponse;
 import ua.kiev.supersergey.judgement_registry_parser.core.dao.KeywordRepository;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.Keyword;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.KeywordStatus;
@@ -29,8 +31,9 @@ public class KeywordServiceImpl implements KeywordService {
 
     @Override
     @Transactional
-    public List<Keyword> getAllKeywords(int page, int size) {
-        return keywordRepository.findByAllNotDeleted(PageRequest.of(page, size)).getContent();
+    public PaginatedResponse<List<Keyword>> getAllKeywords(int page, int size) {
+        Page<Keyword> response = keywordRepository.findByAllNotDeleted(PageRequest.of(page, size));
+        return new PaginatedResponse<List<Keyword>>(response.getTotalElements(), page, response.getContent());
     }
 
     @Override

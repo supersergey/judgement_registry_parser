@@ -47,9 +47,10 @@ public class KeywordController {
     public ResponseEntity<?> getAllKeywords(
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size) {
-        List<Keyword> allKeywords = keywordService.getAllKeywords(page, size);
-        return CollectionUtils.isEmpty(allKeywords) ?
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Данных нет") : ResponseEntity.ok(keywordConverter.apply(allKeywords));
+        PaginatedResponse<List<Keyword>> allKeywords = keywordService.getAllKeywords(page, size);
+        return CollectionUtils.isEmpty(allKeywords.getPayload()) ?
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Данных нет")
+                : ResponseEntity.ok(new PaginatedResponse<>(allKeywords.getCollectionSize(), allKeywords.getPage(), keywordConverter.apply(allKeywords.getPayload())));
     }
 
     @GetMapping(path = "/details/{keyword}")

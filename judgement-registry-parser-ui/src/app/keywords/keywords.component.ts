@@ -3,6 +3,7 @@ import {Keyword} from './keyword'
 import {KeywordService} from './keyword.service';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {MessageService, MessageType} from "../messages/message.service";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-keywords',
@@ -14,21 +15,26 @@ export class KeywordsComponent implements OnInit {
 
   keywordToDelete: string;
 
+  collectionSize: number;
+  pageSize : number = environment.defaultPageSize;
+  page: number = 1;
+
   constructor(private keywordService: KeywordService,
               private modalService: NgbModal,
               private messageService: MessageService) {
   }
 
   ngOnInit() {
-    this.getKeywords();
+    this.getKeywords(this.page, this.pageSize);
   }
 
   keywords: Keyword[];
 
-  getKeywords(): void {
-    this.keywordService.getKeywords().subscribe(kwords => {
-      this.keywords = kwords;
-      console.log(kwords)
+  getKeywords(page: number, size: number): void {
+    this.keywordService.getKeywords(page - 1, size).subscribe(kwords => {
+      this.keywords = kwords.payload;
+      this.page = kwords.page + 1;
+      this.collectionSize = kwords.collectionSize;
     });
   }
 
@@ -67,5 +73,9 @@ export class KeywordsComponent implements OnInit {
   findKeyword(value: string) {
     this.keywordService.findKeyword(value).subscribe(keywords => this.keywords = keywords,
       error => this.messageService.add(error.error, MessageType.ERROR));
+  }
+
+  changePage(newPage : any) : void {
+    this.getKeywords(newPage, environment.defaultPageSize);
   }
 }

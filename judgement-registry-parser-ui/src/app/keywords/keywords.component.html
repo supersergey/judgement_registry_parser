@@ -10,7 +10,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let keyword of keywords; index as j">
-      <td>{{j+1}}</td>
+      <td>{{(page - 1) * pageSize + (j+1)}}</td>
       <td ><a href="/keyword/{{keyword.keyword}}">{{keyword.keyword}}</a></td>
       <td>{{keyword.updatedTs | date: 'dd/MM/yyyy HH:mm'}}</td>
       <td>
@@ -44,6 +44,19 @@
     </div>
   </div>
 </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-4 mx-auto">
+      <ngb-pagination [collectionSize]=collectionSize
+                      [pageSize]=pageSize
+                      [page]=page aria-label="Default pagination"
+                      [maxSize]="10"
+                      (pageChange)=changePage($event)></ngb-pagination>
+    </div>
+  </div>
+</div>
+
 
 <ng-template #content let-modal>
   <div class="modal-header">

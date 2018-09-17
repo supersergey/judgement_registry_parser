@@ -3,6 +3,7 @@ import { Document } from '../document';
 import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 import { KeywordService } from "../keywords/keyword.service";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-keyword-detail',

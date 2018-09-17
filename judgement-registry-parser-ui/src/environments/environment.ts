@@ -8,7 +8,7 @@ export const environment = {
   baseUrl: 'api',
   host: 'http://localhost',
   registryUrl: 'http://www.reyestr.court.gov.ua/Review/',
-  defaultPageSize : 3
+  defaultPageSize : 10
 };
 
 /*

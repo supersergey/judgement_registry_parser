@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {MessageService} from "../messages/message.service";
+import {Page} from "../page";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -25,9 +26,9 @@ export class KeywordService {
   constructor(private http: HttpClient, private messageService : MessageService ) { }
 
 
-  getKeywords() : Observable<Keyword[]> {
-    const endpoint = "/keyword";
-    return this.http.get<Keyword[]>(this.requestUrl + endpoint);
+  getKeywords(page: number, size: number) : Observable<Page<Keyword[]>> {
+    const endpoint = `/keyword?page=${page}&size=${size}`;
+    return this.http.get<Page<Keyword[]>>(this.requestUrl + endpoint);
   }
 
   getDocumentsByKeyword(name : string): Observable<Document[]> {
