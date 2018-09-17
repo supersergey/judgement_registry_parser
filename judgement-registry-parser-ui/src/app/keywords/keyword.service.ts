@@ -51,8 +51,8 @@ export class KeywordService {
     return this.http.put<Keyword>(endpoint, keyword, httpOptions);
   }
 
-  findKeyword(value: string) : Observable<Keyword[]>{
-    const endpoint = `${this.requestUrl}/keyword/${value}`;
-    return this.http.get<Keyword[]>(endpoint);
+  findKeyword(value: string, page: number, size: number) : Observable<Page<Keyword[]>>{
+    const endpoint = `${this.requestUrl}/keyword/?keyword=${value}&page=${page}&size=${size}`;
+    return this.http.get<Page<Keyword[]>>(endpoint);
   }
 }

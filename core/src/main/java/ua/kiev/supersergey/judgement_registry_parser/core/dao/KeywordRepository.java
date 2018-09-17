@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.Keyword;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.KeywordStatus;
 
-import java.util.List;
+import java.util.Date;
 import java.util.Optional;
 
 @Repository
@@ -21,5 +21,7 @@ public interface KeywordRepository extends PagingAndSortingRepository<Keyword, S
 //    @Query("select Keyword from keyword Keyword join fetch Keyword.documents where lower(Keyword.keyword) = lower(:keyword)")
 //    Optional<Keyword> findByKeywordIgnoreCase(@Param("keyword") String keyword);
     Optional<Keyword> findByKeywordIgnoreCase(String keyword);
-    Optional<List<Keyword>> findByKeywordIgnoreCaseContainingAndStatusIsNullOrStatusNot(String keyword, KeywordStatus status, Pageable page);
+    Page<Keyword> findByKeywordIgnoreCaseContainingAndStatusIsNullOrStatusNot(String keyword, KeywordStatus status, Pageable page);
+    @Query("select distinct Keyword from keyword Keyword where Keyword.createdTs < :date and Keyword.status is NULL")
+    Optional<Keyword> findAllNotUpdatedKeywords(@Param("date")Date date, Pageable pageable);
 }

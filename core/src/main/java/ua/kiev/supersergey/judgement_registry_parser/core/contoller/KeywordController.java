@@ -1,12 +1,14 @@
 package ua.kiev.supersergey.judgement_registry_parser.core.contoller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ua.kiev.supersergey.judgement_registry_parser.core.contoller.dto.DocumentDto;
 import ua.kiev.supersergey.judgement_registry_parser.core.contoller.dto.KeywordDto;
@@ -44,10 +46,16 @@ public class KeywordController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllKeywords(
+    public ResponseEntity<?> getKeywords(
+            @RequestParam(required = false, defaultValue = "") String keyword,
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size) {
-        PaginatedResponse<List<Keyword>> allKeywords = keywordService.getAllKeywords(page, size);
+        PaginatedResponse<List<Keyword>> allKeywords;
+        if (StringUtils.isEmpty(keyword.trim())) {
+            allKeywords = keywordService.getAllKeywords(page, size);
+        } else {
+            allKeywords = keywordService.findAllByKeyword(keyword, page, size);
+        }
         return CollectionUtils.isEmpty(allKeywords.getPayload()) ?
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body("Данных нет")
                 : ResponseEntity.ok(new PaginatedResponse<>(allKeywords.getCollectionSize(), allKeywords.getPage(), keywordConverter.apply(allKeywords.getPayload())));
@@ -87,7 +95,6 @@ public class KeywordController {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
                     .body("Ключевое слово не найдено: " + keyword);
-
         }
     }
 
@@ -99,17 +106,5 @@ public class KeywordController {
             return ResponseEntity.ok(keywordConverter.applySingle(existingKeyword.get()));
         }
         return ResponseEntity.status(HttpStatus.CONFLICT).body("Ошибка при удаленини ключевого слова: " + keyword);
-    }
-
-    @GetMapping("/{keyword}")
-    public ResponseEntity<?> findByKeyword(@PathVariable("keyword") String keyword,
-                                           @RequestParam(required = false, defaultValue = "0") Integer page,
-                                           @RequestParam(required = false, defaultValue = "10") Integer size) {
-        Optional<List<Keyword>> existingKeyword = keywordService.findAllByKeyword(keyword, page, size);
-        if (existingKeyword.isPresent()) {
-            return ResponseEntity.ok(keywordConverter.apply(existingKeyword.get()));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ключевое слово не найдено: " + keyword);
-        }
     }
 }

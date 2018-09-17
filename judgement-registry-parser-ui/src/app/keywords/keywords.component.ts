@@ -4,6 +4,8 @@ import {KeywordService} from './keyword.service';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {MessageService, MessageType} from "../messages/message.service";
 import {environment} from "../../environments/environment";
+import {Observable, ObservableLike} from "rxjs/index";
+import {Page} from "../page";
 
 @Component({
   selector: 'app-keywords',
@@ -14,21 +16,23 @@ import {environment} from "../../environments/environment";
 export class KeywordsComponent implements OnInit {
 
   keywordToDelete: string;
+  keywordToFind: string;
 
   collectionSize: number;
-  pageSize : number = environment.defaultPageSize;
+  pageSize: number = environment.defaultPageSize;
   page: number = 1;
+
 
   constructor(private keywordService: KeywordService,
               private modalService: NgbModal,
               private messageService: MessageService) {
   }
 
-  ngOnInit() {
-    this.getKeywords(this.page, this.pageSize);
-  }
-
   keywords: Keyword[];
+
+  ngOnInit() {
+    this.findKeyword("");
+  }
 
   getKeywords(page: number, size: number): void {
     this.keywordService.getKeywords(page - 1, size).subscribe(kwords => {
@@ -71,11 +75,21 @@ export class KeywordsComponent implements OnInit {
   }
 
   findKeyword(value: string) {
-    this.keywordService.findKeyword(value).subscribe(keywords => this.keywords = keywords,
-      error => this.messageService.add(error.error, MessageType.ERROR));
+    this.keywordToFind = value;
+    this.doFindKeyword(value, 0, environment.defaultPageSize)
   }
 
-  changePage(newPage : any) : void {
-    this.getKeywords(newPage, environment.defaultPageSize);
+  changePage(newPage: any): void {
+    this.doFindKeyword(this.keywordToFind, newPage - 1, environment.defaultPageSize);
+  }
+
+  doFindKeyword(keyword: string, page: number, size: number) : void {
+    this.keywordService.findKeyword(keyword, page, size).subscribe(response => {
+          this.keywords = response.payload;
+          this.collectionSize = response.collectionSize;
+          this.page = response.page + 1;
+        },
+        error => this.messageService.add(error.error, MessageType.ERROR)
+      )
   }
 }

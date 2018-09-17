@@ -12,5 +12,5 @@ public interface KeywordService {
     Keyword addKeyword(Keyword keyword);
     Keyword updateKeyword(Keyword keyword);
     Keyword deleteKeyword(Keyword k);
-    Optional<List<Keyword>> findAllByKeyword(String keyword, int page, int size);
+    PaginatedResponse<List<Keyword>> findAllByKeyword(String keyword, int page, int size);
 }

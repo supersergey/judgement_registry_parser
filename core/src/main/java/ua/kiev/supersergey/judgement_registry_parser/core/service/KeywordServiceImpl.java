@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
@@ -13,15 +14,20 @@ import ua.kiev.supersergey.judgement_registry_parser.core.dao.KeywordRepository;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.Keyword;
 import ua.kiev.supersergey.judgement_registry_parser.core.entity.KeywordStatus;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @Slf4j
 public class KeywordServiceImpl implements KeywordService {
     private final KeywordRepository keywordRepository;
     private final DocumentService documentService;
+    private final static Random RND = new Random();
 
     @Autowired
     public KeywordServiceImpl(KeywordRepository keywordRepository, DocumentService documentService) {
@@ -33,7 +39,7 @@ public class KeywordServiceImpl implements KeywordService {
     @Transactional
     public PaginatedResponse<List<Keyword>> getAllKeywords(int page, int size) {
         Page<Keyword> response = keywordRepository.findByAllNotDeleted(PageRequest.of(page, size));
-        return new PaginatedResponse<List<Keyword>>(response.getTotalElements(), page, response.getContent());
+        return new PaginatedResponse<>(response.getTotalElements(), page, response.getContent());
     }
 
     @Override
@@ -75,7 +81,33 @@ public class KeywordServiceImpl implements KeywordService {
     }
 
     @Override
-    public Optional<List<Keyword>> findAllByKeyword(String keyword, int page, int size) {
-        return keywordRepository.findByKeywordIgnoreCaseContainingAndStatusIsNullOrStatusNot(keyword, KeywordStatus.DELETED, PageRequest.of(page, size));
+    public PaginatedResponse<List<Keyword>> findAllByKeyword(String keyword, int page, int size) {
+        Page<Keyword> response = keywordRepository.findByKeywordIgnoreCaseContainingAndStatusIsNullOrStatusNot(keyword, KeywordStatus.DELETED, PageRequest.of(page, size));
+        return new PaginatedResponse<>(response.getTotalElements(), page, response.getContent());
+    }
+
+    @Scheduled(cron = "0 0 5 * * *")
+    @Transactional
+    public void scheduallyFetchNewDocuments() {
+        Optional<Keyword> notUpdatedKeyword;
+        do {
+            notUpdatedKeyword = keywordRepository.findAllNotUpdatedKeywords(
+                    Date.from(LocalDateTime
+                            .now()
+                            .minusHours(12)
+                            .atZone(ZoneOffset.systemDefault())
+                            .toInstant()),
+                    PageRequest.of(0, 1));
+            notUpdatedKeyword.ifPresent(keyword -> Mono.just(keyword)
+                    .doOnNext(keywordRepository::save)
+                    .map(Keyword::getKeyword)
+                    .subscribeOn(Schedulers.elastic())
+                    .subscribe(documentService::updateDocumentsForKeyword));
+            try {
+                Thread.sleep(RND.nextInt(200) * 1000);
+            } catch (InterruptedException ex) {
+                return;
+            }
+        } while (notUpdatedKeyword.isPresent());
     }
 }
